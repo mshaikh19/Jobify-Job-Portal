@@ -1,0 +1,1597 @@
+  {% load static %}
+  {% load tz %}
+  {% load i18n %}
+  {% load l10n %}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+    <title>Jobify | Sign Up</title>
+  </head>
+  <body class="bg-gray-50 font-sans">
+
+    <div class="min-h-[96vh] flex items-center justify-center">
+      <div class="relative overflow-hidden w-full max-w-6xl bg-white shadow-lg rounded-lg p-8 pb-0 h-[650px]">
+          <div class="flex flex-row items-center justify-between pb-10">
+              
+              <button type="button" class="text-gray-600 hover:text-dark-blue-purple flex items-center"
+                  onclick="window.location.href = `{% url 'pre-signup' %}`">
+                <!-- Back arrow -->
+                
+                  <img src="{% static 'assests/images/left-arrow.png' %}" class=" w-6 h-6 mr-2">
+                </svg>
+                Back
+              </button>
+
+              <h1 class="text-lg md:text-4xl font-semibold text-center absolute left-1/2 transform -translate-x-1/2">Jobify</h1>
+            </div>
+        <!-- Stepper -->
+        <ol id="stepper" class="hidden md:flex flex-wrap flex-row items-start lg:items-center w-full mb-8 gap-4">
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="0">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-0" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 1</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Account Setup</h4> -->
+            </a>
+          </li>
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="1">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-1" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 2</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Resume Details</h4> -->
+            </a>
+          </li>
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="2">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-2" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 3</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Personal Info</h4> -->
+            </a>
+          </li>
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="3">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-3" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 4</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Educational Details</h4> -->
+            </a>
+          </li>
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="4">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-4" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 5</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Additional Details</h4> -->
+            </a>
+          </li>
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="5">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-5" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 6</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Job Preference</h4> -->
+            </a>
+          </li>
+          <li class="stepper-item flex-1 min-w-[10px]" data-step="6">
+            <div class="w-full h-1 bg-gray-200 rounded mb-2">
+              <div id="progress-step-6" class="h-1 bg-dark-blue w-0 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <a href="#" class="step-link font-medium">
+              <span class="text-sm lg:text-base text-dark-blue-purple">Step 7</span>
+              <!-- <h4 class="text-base lg:text-lg text-gray-900">Confirm Details</h4> -->
+            </a>
+          </li>
+        </ol>
+
+        <!-- Form -->
+        <form id="multi-step-form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <!-- Step 1 -->
+          <div id="step-1" class="step">
+            <h2 class="text-xl font-semibold mb-4">Step 1: Account Setup</h2>
+            
+            
+            <div class="substep hidden" data-step="0" data-substep="0">
+              <input type="password" placeholder="Password" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-blue" name="password" id="password"  required/>
+              
+            
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+      <div id="step-2" class="step hidden">
+      <h2 class="text-xl font-semibold mb-4">Step 2: Upload or Build Resume</h2>
+    
+      <!-- Substep 0: Upload -->
+      <div class="substep" data-step="1" data-substep="0">
+          <label class="cursor-pointer" id="resume-upload">
+              <input type="file" name="resume_file" id="resume_file" class="block w-full text-gray-200 bg-gray-500 border border-gray-300 px-6 py-4 rounded-lg shadow-sm text-center cursor-pointer file:mr-4 file:py-0 file:px-0 file:border-0 file:text-gray-200 file:font-semibold file:bg-transparent file:text-center hover:bg-gray-600"/>
+
+          </label>  
+
+          <div class="flex items-center my-4">
+            <hr class="flex-grow border-gray-300">
+            <span class="mx-4 text-gray-500 font-medium">OR</span>
+            <hr class="flex-grow border-gray-300">
+          </div>
+        
+          
+          <label class="cursor-pointer" id="build-resume-radio">
+            <input type="radio" id="build_resume" name="build_resume" value="Yes" class="peer hidden"/>
+            <div class="radio-box peer-checked:ring-2 peer-checked:ring-green-600 border border-gray-300 px-6 py-4 rounded-lg shadow-sm text-center bg-gray-500 hover:bg-gray-600">
+                <h3 class="font-semibold text-lg mb-1 text-gray-200">Start Building your Resume</h3>
+
+              </div>
+          </label>
+          
+            
+        </div>
+        
+    
+    
+      
+    </div>
+
+          <!-- Step 3 -->
+          <div id="step-3" class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Step 3: Personal Info</h2>
+            <div class="substep" data-step="2" data-substep="0">
+              <input type="text" placeholder="First Name" name = "first_name" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" required />
+              <input type="text" placeholder="Last Name" name = "last_name" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" required />
+          </div>
+          
+          <div class="substep hidden" data-step="2" data-substep="1">
+              <div class="mb-4">
+                <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                <input type="number" id="age" name="age" min="16" required
+                      class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" />
+              </div>
+            
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                <div class="flex gap-4">
+                  <label class="cursor-pointer" id="male-radio">
+                    <input type="radio" name="gender" value="male" class="peer hidden" />
+                    <div class="radio-box peer-checked:ring-2 peer-checked:ring-blue-600 border border-gray-300 px-4 py-3 rounded-full shadow-sm text-center bg-transparent peer-checked:bg-blue-500">
+                      <h3 class="font-semibold text-lg mb-1 peer-checked:text-white text-gray-700">Male</h3>
+                    </div>
+                  </label>
+                  
+                  <label class="cursor-pointer" id="female-radio">
+                    <input type="radio" name="gender" value="female" class="peer hidden" />
+                    <div class="radio-box peer-checked:ring-2 peer-checked:ring-pink-600 border border-gray-300 px-4 py-3 rounded-full shadow-sm text-center bg-transparent peer-checked:bg-pink-500">
+                      <h3 class="font-semibold text-lg mb-1 peer-checked:text-white text-gray-700">Female</h3>
+                    </div>
+                  </label>
+                  
+                  <label class="cursor-pointer" id="other-radio">
+                    <input type="radio" name="gender" value="other" class="peer hidden" />
+                    <div class="radio-box peer-checked:ring-2 peer-checked:ring-purple-600 border border-gray-300 px-4 py-3 rounded-full shadow-sm text-center bg-transparent peer-checked:bg-purple-500">
+                      <h3 class="font-semibold text-lg mb-1 peer-checked:text-white text-gray-700">Other</h3>
+                    </div>
+                  </label>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+            <div class="substep hidden" data-step="2" data-substep="2">
+                <input type="text" placeholder="Street Address" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" required name="street_address" id="street_address"/>
+                <div class="mb-4">
+                  <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                  <select id="city" name="city" required
+                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray">
+                    <option value="">Select City</option>
+            
+                    <!-- Maharashtra -->
+                    <option value="Mumbai" data-state="Maharashtra" data-country="India">Mumbai</option>
+                    <option value="Pune" data-state="Maharashtra" data-country="India">Pune</option>
+                    <option value="Nagpur" data-state="Maharashtra" data-country="India">Nagpur</option>
+                    <option value="Nashik" data-state="Maharashtra" data-country="India">Nashik</option>
+                    <option value="Aurangabad" data-state="Maharashtra" data-country="India">Aurangabad</option>
+                  
+                    <!-- Karnataka -->
+                    <option value="Bangalore" data-state="Karnataka" data-country="India">Bangalore</option>
+                    <option value="Mysore" data-state="Karnataka" data-country="India">Mysore</option>
+                    <option value="Mangalore" data-state="Karnataka" data-country="India">Mangalore</option>
+                    <option value="Hubli" data-state="Karnataka" data-country="India">Hubli</option>
+                  
+                    <!-- Telangana -->
+                    <option value="Hyderabad" data-state="Telangana" data-country="India">Hyderabad</option>
+                    <option value="Warangal" data-state="Telangana" data-country="India">Warangal</option>
+                    <option value="Karimnagar" data-state="Telangana" data-country="India">Karimnagar</option>
+                  
+                    <!-- Tamil Nadu -->
+                    <option value="Chennai" data-state="Tamil Nadu" data-country="India">Chennai</option>
+                    <option value="Coimbatore" data-state="Tamil Nadu" data-country="India">Coimbatore</option>
+                    <option value="Madurai" data-state="Tamil Nadu" data-country="India">Madurai</option>
+                    <option value="Trichy" data-state="Tamil Nadu" data-country="India">Trichy</option>
+                  
+                    <!-- Gujarat -->
+                    <option value="Ahmedabad" data-state="Gujarat" data-country="India">Ahmedabad</option>
+                    <option value="Surat" data-state="Gujarat" data-country="India">Surat</option>
+                    <option value="Vadodara" data-state="Gujarat" data-country="India">Vadodara</option>
+                    <option value="Rajkot" data-state="Gujarat" data-country="India">Rajkot</option>
+                  
+                    <!-- West Bengal -->
+                    <option value="Kolkata" data-state="West Bengal" data-country="India">Kolkata</option>
+                    <option value="Howrah" data-state="West Bengal" data-country="India">Howrah</option>
+                    <option value="Durgapur" data-state="West Bengal" data-country="India">Durgapur</option>
+                    <option value="Asansol" data-state="West Bengal" data-country="India">Asansol</option>
+                  
+                    <!-- Delhi -->
+                    <option value="Delhi" data-state="Delhi" data-country="India">Delhi</option>
+                  
+                    <!-- Rajasthan -->
+                    <option value="Jaipur" data-state="Rajasthan" data-country="India">Jaipur</option>
+                    <option value="Udaipur" data-state="Rajasthan" data-country="India">Udaipur</option>
+                    <option value="Jodhpur" data-state="Rajasthan" data-country="India">Jodhpur</option>
+                    <option value="Kota" data-state="Rajasthan" data-country="India">Kota</option>
+                  
+                    <!-- Uttar Pradesh -->
+                    <option value="Lucknow" data-state="Uttar Pradesh" data-country="India">Lucknow</option>
+                    <option value="Kanpur" data-state="Uttar Pradesh" data-country="India">Kanpur</option>
+                    <option value="Agra" data-state="Uttar Pradesh" data-country="India">Agra</option>
+                    <option value="Varanasi" data-state="Uttar Pradesh" data-country="India">Varanasi</option>
+                  
+                    <!-- Punjab -->
+                    <option value="Chandigarh" data-state="Punjab" data-country="India">Chandigarh</option>
+                    <option value="Amritsar" data-state="Punjab" data-country="India">Amritsar</option>
+                    <option value="Ludhiana" data-state="Punjab" data-country="India">Ludhiana</option>
+                    <option value="Patiala" data-state="Punjab" data-country="India">Patiala</option>
+                  
+                    <!-- Kerala -->
+                    <option value="Thiruvananthapuram" data-state="Kerala" data-country="India">Thiruvananthapuram</option>
+                    <option value="Kochi" data-state="Kerala" data-country="India">Kochi</option>
+                    <option value="Kozhikode" data-state="Kerala" data-country="India">Kozhikode</option>
+                    <option value="Kottayam" data-state="Kerala" data-country="India">Kottayam</option>
+                  
+                    <!-- Bihar -->
+                    <option value="Patna" data-state="Bihar" data-country="India">Patna</option>
+                    <option value="Gaya" data-state="Bihar" data-country="India">Gaya</option>
+                    <option value="Bhagalpur" data-state="Bihar" data-country="India">Bhagalpur</option>
+                    <option value="Muzaffarpur" data-state="Bihar" data-country="India">Muzaffarpur</option>
+                  
+                    <!-- Uttarakhand -->
+                    <option value="Dehradun" data-state="Uttarakhand" data-country="India">Dehradun</option>
+                    <option value="Haridwar" data-state="Uttarakhand" data-country="India">Haridwar</option>
+                    <option value="Nainital" data-state="Uttarakhand" data-country="India">Nainital</option>
+                    <option value="Rishikesh" data-state="Uttarakhand" data-country="India">Rishikesh</option>
+                  
+                    <!-- USA - California -->
+                    <option value="Los Angeles" data-state="California" data-country="USA">Los Angeles</option>
+                    <option value="San Francisco" data-state="California" data-country="USA">San Francisco</option>
+                    <option value="San Diego" data-state="California" data-country="USA">San Diego</option>
+                    <option value="Sacramento" data-state="California" data-country="USA">Sacramento</option>
+                  
+                    <!-- USA - New York -->
+                    <option value="New York City" data-state="New York" data-country="USA">New York City</option>
+                    <option value="Buffalo" data-state="New York" data-country="USA">Buffalo</option>
+                    <option value="Rochester" data-state="New York" data-country="USA">Rochester</option>
+                    <option value="Syracuse" data-state="New York" data-country="USA">Syracuse</option>
+                  
+                    <!-- USA - Texas -->
+                    <option value="Houston" data-state="Texas" data-country="USA">Houston</option>
+                    <option value="Dallas" data-state="Texas" data-country="USA">Dallas</option>
+                    <option value="Austin" data-state="Texas" data-country="USA">Austin</option>
+                    <option value="San Antonio" data-state="Texas" data-country="USA">San Antonio</option>
+                  
+                    <!-- USA - Florida -->
+                    <option value="Miami" data-state="Florida" data-country="USA">Miami</option>
+                    <option value="Orlando" data-state="Florida" data-country="USA">Orlando</option>
+                    <option value="Tampa" data-state="Florida" data-country="USA">Tampa</option>
+                    <option value="Jacksonville" data-state="Florida" data-country="USA">Jacksonville</option>
+                  
+                    <!-- USA - Illinois -->
+                    <option value="Chicago" data-state="Illinois" data-country="USA">Chicago</option>
+                    <option value="Aurora" data-state="Illinois" data-country="USA">Aurora</option>
+                    <option value="Naperville" data-state="Illinois" data-country="USA">Naperville</option>
+                    <option value="Joliet" data-state="Illinois" data-country="USA">Joliet</option>
+                  
+                    <!-- USA - Georgia -->
+                    <option value="Atlanta" data-state="Georgia" data-country="USA">Atlanta</option>
+                    <option value="Augusta" data-state="Georgia" data-country="USA">Augusta</option>
+                    <option value="Savannah" data-state="Georgia" data-country="USA">Savannah</option>
+                    <option value="Athens" data-state="Georgia" data-country="USA">Athens</option>
+                  
+                  </select>
+                </div>
+              
+                <div class="mb-4">
+                  <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                  <select id="state" name="state" required
+                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray">
+                    <option value="">Select State</option>
+            
+                    <!-- India States -->
+                    <option value="Maharashtra" data-country="India">Maharashtra</option>
+                    <option value="Karnataka" data-country="India">Karnataka</option>
+                    <option value="Telangana" data-country="India">Telangana</option>
+                    <option value="tamilnadu" data-country="India">Tamil Nadu</option>
+                    <option value="gujarat" data-country="India">Gujarat</option>
+                    <option value="westbengal" data-country="India">West Bengal</option>
+                    <option value="delhi" data-country="India">Delhi</option>
+                    <option value="rajasthan" data-country="India">Rajasthan</option>
+                    <option value="up" data-country="India">Uttar Pradesh</option>
+                    <option value="punjab" data-country="India">Punjab</option>
+                    <option value="kerala" data-country="India">Kerala</option>
+                    <option value="bihar" data-country="India">Bihar</option>
+                    <option value="uttarakhand" data-country="India">Uttarakhand</option>
+                    <option value="other" data-country="India">Other</option>
+                  
+                    <!-- USA States -->
+                    <option value="california" data-country="USA">California</option>
+                    <option value="newyork" data-country="USA">New York</option>
+                    <option value="texas" data-country="USA">Texas</option>
+                    <option value="florida" data-country="USA">Florida</option>
+                    <option value="illinois" data-country="USA">Illinois</option>
+                    <option value="georgia" data-country="USA">Georgia</option>
+                    <option value="pennsylvania" data-country="USA">Pennsylvania</option>
+                    <option value="ohio" data-country="USA">Ohio</option>
+                    <option value="michigan" data-country="USA">Michigan</option>
+                    <option value="northcarolina" data-country="USA">North Carolina</option>
+                    <option value="virginia" data-country="USA">Virginia</option>
+                    <option value="washington" data-country="USA">Washington</option>
+                    <option value="other" data-country="USA">Other</option>
+                  
+                    <!-- Canada States -->
+                    <option value="ontario" data-country="Canada">Ontario</option>
+                    <option value="quebec" data-country="Canada">Quebec</option>
+                    <option value="britishcolumbia" data-country="Canada">British Columbia</option>
+                    <option value="alberta" data-country="Canada">Alberta</option>
+                    <option value="manitoba" data-country="Canada">Manitoba</option>
+                    <option value="saskatchewan" data-country="Canada">Saskatchewan</option>
+                    <option value="nova_scotia" data-country="Canada">Nova Scotia</option>
+                    <option value="new_brunswick" data-country="Canada">New Brunswick</option>
+                    <option value="newfoundland" data-country="Canada">Newfoundland and Labrador</option>
+                    <option value="other" data-country="Canada">Other</option>
+                  
+                    <!-- UK States -->
+                    <option value="england" data-country="UK">England</option>
+                    <option value="scotland" data-country="UK">Scotland</option>
+                    <option value="wales" data-country="UK">Wales</option>
+                    <option value="northern_ireland" data-country="UK">Northern Ireland</option>
+                    <option value="other" data-country="UK">Other</option>
+                  
+                    <!-- Australia States -->
+                    <option value="new_south_wales" data-country="Australia">New South Wales</option>
+                    <option value="queensland" data-country="Australia">Queensland</option>
+                    <option value="victoria" data-country="Australia">Victoria</option>
+                    <option value="south_australia" data-country="Australia">South Australia</option>
+                    <option value="western_australia" data-country="Australia">Western Australia</option>
+                    <option value="tasmania" data-country="Australia">Tasmania</option>
+                    <option value="northern_territory" data-country="Australia">Northern Territory</option>
+                    <option value="australian_capital_territory" data-country="Australia">Australian Capital Territory</option>
+                    <option value="other" data-country="Australia">Other</option>
+                  
+                  </select>
+                </div>
+              
+                <div class="mb-4">
+                  <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                  <select id="country" name="country" required
+                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray">
+                    <option value="" disabled selected>Select your country</option>
+                    <option value="India">India</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                  </select>
+                </div>
+
+                
+                  
+                  
+            </div>
+          </div>
+          
+          <!-- Step 4 -->
+          <div id="step-4" class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Step 4: Educational Background</h2>
+            <div class="substep" data-step="3" data-substep="0">
+              <!-- Level of Education -->
+              <div class="mb-4">
+                <select class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" name="level_of_education" id="level_of_education">
+                  <option value="" disabled selected>Select Level of Education</option>
+                  <option value="High School Diploma">High School Diploma</option>
+                  <option value="Associate Degree">Associate Degree</option>
+                  <option value="Bachelor's Degree">Bachelor's Degree</option>
+                  <option value="Master's Degree">Master's Degree</option>
+                  <option value="Ph.D. or Doctorate">Ph.D. or Doctorate</option>
+                  <option value="Diploma">Diploma</option>
+                  <option value="Certificate Course">Certificate Course</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            
+              <!-- Field of Study -->
+              <div class="mb-4">
+                <select class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" name="field" id="field">
+                  <option value="" disabled selected>Select Field of Study</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Business Administration">Business Administration</option>
+                  <option value="Medicine">Medicine</option>
+                  <option value="Law">Law</option>
+                  <option value="Arts & Humanities">Arts & Humanities</option>
+                  <option value="Pure Science">Pure Sciences</option>
+                  <option value="Education">Education</option>
+                  <option value="Finance $ Accounting">Finance & Accounting</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            
+          
+              <div class="substep hidden" data-step="3" data-substep="1">
+                  <input type="text" placeholder="School Name" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" required name="school_name" id="school_name" />
+                <div class="mb-4">
+                  <label for="school_city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                  <select id="school_city" name="school_city" required
+                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray">
+                    <option value="">Select City</option>
+                  
+                    <!-- Maharashtra -->
+                    <option value="Mumbai" data-state="Maharashtra" data-country="India">Mumbai</option>
+                    <option value="Pune" data-state="Maharashtra" data-country="India">Pune</option>
+                    <option value="Nagpur" data-state="Maharashtra" data-country="India">Nagpur</option>
+                    <option value="Nashik" data-state="Maharashtra" data-country="India">Nashik</option>
+                    <option value="Aurangabad" data-state="Maharashtra" data-country="India">Aurangabad</option>
+                  
+                    <!-- Karnataka -->
+                    <option value="Bangalore" data-state="Karnataka" data-country="India">Bangalore</option>
+                    <option value="Mysore" data-state="Karnataka" data-country="India">Mysore</option>
+                    <option value="Mangalore" data-state="Karnataka" data-country="India">Mangalore</option>
+                    <option value="Hubli" data-state="Karnataka" data-country="India">Hubli</option>
+                  
+                    <!-- Telangana -->
+                    <option value="Hyderabad" data-state="Telangana" data-country="India">Hyderabad</option>
+                    <option value="Warangal" data-state="Telangana" data-country="India">Warangal</option>
+                    <option value="Karimnagar" data-state="Telangana" data-country="India">Karimnagar</option>
+                  
+                    <!-- Tamil Nadu -->
+                    <option value="Chennai" data-state="Tamil Nadu" data-country="India">Chennai</option>
+                    <option value="Coimbatore" data-state="Tamil Nadu" data-country="India">Coimbatore</option>
+                    <option value="Madurai" data-state="Tamil Nadu" data-country="India">Madurai</option>
+                    <option value="Trichy" data-state="Tamil Nadu" data-country="India">Trichy</option>
+                  
+                    <!-- Gujarat -->
+                    <option value="Ahmedabad" data-state="Gujarat" data-country="India">Ahmedabad</option>
+                    <option value="Surat" data-state="Gujarat" data-country="India">Surat</option>
+                    <option value="Vadodara" data-state="Gujarat" data-country="India">Vadodara</option>
+                    <option value="Rajkot" data-state="Gujarat" data-country="India">Rajkot</option>
+                  
+                    <!-- West Bengal -->
+                    <option value="Kolkata" data-state="West Bengal" data-country="India">Kolkata</option>
+                    <option value="Howrah" data-state="West Bengal" data-country="India">Howrah</option>
+                    <option value="Durgapur" data-state="West Bengal" data-country="India">Durgapur</option>
+                    <option value="Asansol" data-state="West Bengal" data-country="India">Asansol</option>
+                  
+                    <!-- Delhi -->
+                    <option value="Delhi" data-state="Delhi" data-country="India">Delhi</option>
+                  
+                    <!-- Rajasthan -->
+                    <option value="Jaipur" data-state="Rajasthan" data-country="India">Jaipur</option>
+                    <option value="Udaipur" data-state="Rajasthan" data-country="India">Udaipur</option>
+                    <option value="Jodhpur" data-state="Rajasthan" data-country="India">Jodhpur</option>
+                    <option value="Kota" data-state="Rajasthan" data-country="India">Kota</option>
+                  
+                    <!-- Uttar Pradesh -->
+                    <option value="Lucknow" data-state="Uttar Pradesh" data-country="India">Lucknow</option>
+                    <option value="Kanpur" data-state="Uttar Pradesh" data-country="India">Kanpur</option>
+                    <option value="Agra" data-state="Uttar Pradesh" data-country="India">Agra</option>
+                    <option value="Varanasi" data-state="Uttar Pradesh" data-country="India">Varanasi</option>
+                  
+                    <!-- Punjab -->
+                    <option value="Chandigarh" data-state="Punjab" data-country="India">Chandigarh</option>
+                    <option value="Amritsar" data-state="Punjab" data-country="India">Amritsar</option>
+                    <option value="Ludhiana" data-state="Punjab" data-country="India">Ludhiana</option>
+                    <option value="Patiala" data-state="Punjab" data-country="India">Patiala</option>
+                  
+                    <!-- Kerala -->
+                    <option value="Thiruvananthapuram" data-state="Kerala" data-country="India">Thiruvananthapuram</option>
+                    <option value="Kochi" data-state="Kerala" data-country="India">Kochi</option>
+                    <option value="Kozhikode" data-state="Kerala" data-country="India">Kozhikode</option>
+                    <option value="Kottayam" data-state="Kerala" data-country="India">Kottayam</option>
+                  
+                    <!-- Bihar -->
+                    <option value="Patna" data-state="Bihar" data-country="India">Patna</option>
+                    <option value="Gaya" data-state="Bihar" data-country="India">Gaya</option>
+                    <option value="Bhagalpur" data-state="Bihar" data-country="India">Bhagalpur</option>
+                    <option value="Muzaffarpur" data-state="Bihar" data-country="India">Muzaffarpur</option>
+                  
+                    <!-- Uttarakhand -->
+                    <option value="Dehradun" data-state="Uttarakhand" data-country="India">Dehradun</option>
+                    <option value="Haridwar" data-state="Uttarakhand" data-country="India">Haridwar</option>
+                    <option value="Nainital" data-state="Uttarakhand" data-country="India">Nainital</option>
+                    <option value="Rishikesh" data-state="Uttarakhand" data-country="India">Rishikesh</option>
+                  
+                    <!-- USA - California -->
+                    <option value="Los Angeles" data-state="California" data-country="USA">Los Angeles</option>
+                    <option value="San Francisco" data-state="California" data-country="USA">San Francisco</option>
+                    <option value="San Diego" data-state="California" data-country="USA">San Diego</option>
+                    <option value="Sacramento" data-state="California" data-country="USA">Sacramento</option>
+                  
+                    <!-- USA - New York -->
+                    <option value="New York City" data-state="New York" data-country="USA">New York City</option>
+                    <option value="Buffalo" data-state="New York" data-country="USA">Buffalo</option>
+                    <option value="Rochester" data-state="New York" data-country="USA">Rochester</option>
+                    <option value="Syracuse" data-state="New York" data-country="USA">Syracuse</option>
+                  
+                    <!-- USA - Texas -->
+                    <option value="Houston" data-state="Texas" data-country="USA">Houston</option>
+                    <option value="Dallas" data-state="Texas" data-country="USA">Dallas</option>
+                    <option value="Austin" data-state="Texas" data-country="USA">Austin</option>
+                    <option value="San Antonio" data-state="Texas" data-country="USA">San Antonio</option>
+                  
+                    <!-- USA - Florida -->
+                    <option value="Miami" data-state="Florida" data-country="USA">Miami</option>
+                    <option value="Orlando" data-state="Florida" data-country="USA">Orlando</option>
+                    <option value="Tampa" data-state="Florida" data-country="USA">Tampa</option>
+                    <option value="Jacksonville" data-state="Florida" data-country="USA">Jacksonville</option>
+                  
+                    <!-- USA - Illinois -->
+                    <option value="Chicago" data-state="Illinois" data-country="USA">Chicago</option>
+                    <option value="Aurora" data-state="Illinois" data-country="USA">Aurora</option>
+                    <option value="Naperville" data-state="Illinois" data-country="USA">Naperville</option>
+                    <option value="Joliet" data-state="Illinois" data-country="USA">Joliet</option>
+                  
+                    <!-- USA - Georgia -->
+                    <option value="Atlanta" data-state="Georgia" data-country="USA">Atlanta</option>
+                    <option value="Augusta" data-state="Georgia" data-country="USA">Augusta</option>
+                    <option value="Savannah" data-state="Georgia" data-country="USA">Savannah</option>
+                    <option value="Athens" data-state="Georgia" data-country="USA">Athens</option>
+                  
+                  </select>
+                  
+                </div>
+              
+                <div class="mb-4">
+                  <label for="school_state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                  <select id="school_state" name="school_state" required
+                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray">
+                    <option value="">Select State</option>
+                  
+                    <!-- India States -->
+                    <option value="Maharashtra" data-country="India">Maharashtra</option>
+                    <option value="Karnataka" data-country="India">Karnataka</option>
+                    <option value="Telangana" data-country="India">Telangana</option>
+                    <option value="tamilnadu" data-country="India">Tamil Nadu</option>
+                    <option value="gujarat" data-country="India">Gujarat</option>
+                    <option value="westbengal" data-country="India">West Bengal</option>
+                    <option value="delhi" data-country="India">Delhi</option>
+                    <option value="rajasthan" data-country="India">Rajasthan</option>
+                    <option value="up" data-country="India">Uttar Pradesh</option>
+                    <option value="punjab" data-country="India">Punjab</option>
+                    <option value="kerala" data-country="India">Kerala</option>
+                    <option value="bihar" data-country="India">Bihar</option>
+                    <option value="uttarakhand" data-country="India">Uttarakhand</option>
+                    <option value="other" data-country="India">Other</option>
+                  
+                    <!-- USA States -->
+                    <option value="california" data-country="USA">California</option>
+                    <option value="newyork" data-country="USA">New York</option>
+                    <option value="texas" data-country="USA">Texas</option>
+                    <option value="florida" data-country="USA">Florida</option>
+                    <option value="illinois" data-country="USA">Illinois</option>
+                    <option value="georgia" data-country="USA">Georgia</option>
+                    <option value="pennsylvania" data-country="USA">Pennsylvania</option>
+                    <option value="ohio" data-country="USA">Ohio</option>
+                    <option value="michigan" data-country="USA">Michigan</option>
+                    <option value="northcarolina" data-country="USA">North Carolina</option>
+                    <option value="virginia" data-country="USA">Virginia</option>
+                    <option value="washington" data-country="USA">Washington</option>
+                    <option value="other" data-country="USA">Other</option>
+                  
+                    <!-- Canada States -->
+                    <option value="ontario" data-country="Canada">Ontario</option>
+                    <option value="quebec" data-country="Canada">Quebec</option>
+                    <option value="britishcolumbia" data-country="Canada">British Columbia</option>
+                    <option value="alberta" data-country="Canada">Alberta</option>
+                    <option value="manitoba" data-country="Canada">Manitoba</option>
+                    <option value="saskatchewan" data-country="Canada">Saskatchewan</option>
+                    <option value="nova_scotia" data-country="Canada">Nova Scotia</option>
+                    <option value="new_brunswick" data-country="Canada">New Brunswick</option>
+                    <option value="newfoundland" data-country="Canada">Newfoundland and Labrador</option>
+                    <option value="other" data-country="Canada">Other</option>
+                  
+                    <!-- UK States -->
+                    <option value="england" data-country="UK">England</option>
+                    <option value="scotland" data-country="UK">Scotland</option>
+                    <option value="wales" data-country="UK">Wales</option>
+                    <option value="northern_ireland" data-country="UK">Northern Ireland</option>
+                    <option value="other" data-country="UK">Other</option>
+                  
+                    <!-- Australia States -->
+                    <option value="new_south_wales" data-country="Australia">New South Wales</option>
+                    <option value="queensland" data-country="Australia">Queensland</option>
+                    <option value="victoria" data-country="Australia">Victoria</option>
+                    <option value="south_australia" data-country="Australia">South Australia</option>
+                    <option value="western_australia" data-country="Australia">Western Australia</option>
+                    <option value="tasmania" data-country="Australia">Tasmania</option>
+                    <option value="northern_territory" data-country="Australia">Northern Territory</option>
+                    <option value="australian_capital_territory" data-country="Australia">Australian Capital Territory</option>
+                    <option value="other" data-country="Australia">Other</option>
+                  
+                  </select>
+                  
+                </div>
+              
+                <div class="mb-4">
+                  <label for="school_country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                  <select id="school_country" name="school_country" required
+                          class="w-full border border-gray-300 rounded-lg p-3 focus:outline-dark-gray">
+                    <option value="" disabled selected>Select your country</option>
+                    <option value="India">India</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                  </select>
+                </div>
+            </div>
+
+
+              <div class="substep hidden" data-step="3" data-substep="2">
+                  <div class="mb-4">
+                      <p class="mb-2 text-sm font-medium text-gray-700">Are you currently enrolled? <span class="text-gray-400 text-xs">(Optional)</span></p>
+                      <div class="flex space-x-4">
+                        <label class="inline-flex items-center">
+                          <input type="radio" name="enroll" value="Yes" required class="peer hidden" />
+                          <span class="px-4 py-2 border rounded-lg cursor-pointer peer-checked:bg-dark-dark-blue peer-checked:text-white">
+                            Yes
+                          </span>
+                        </label>
+                        <label class="inline-flex items-center">
+                          <input type="radio" name="enroll" value="No" required class="peer hidden" />
+                          <span class="px-4 py-2 border rounded-lg cursor-pointer peer-checked:bg-dark-dark-blue peer-checked:text-white">
+                            No
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="mb-4">
+                      <p class="mb-2 text-sm font-medium text-gray-700">From :  </p>
+                      <select class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" name="school_from" id="school_from">
+                          {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                    <div class="mb-4">
+                      <p class="mb-2 text-sm font-medium text-gray-700">To :  </p>
+                      <select class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" name="school_to" id="school_to  ">
+                          {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                
+            </div>
+          </div>
+          
+          
+          <!-- Step 5 -->
+          <div id="step-5" class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Step 5: Additional Details</h2>
+            <div class="substep" data-step="4" data-substep="0">
+              <label for="min_wage" class="block text-sm font-medium mb-1">Work Experience<span class="text-gray-400 text-xs"> (if any)</span></label>
+              <input type="number" id="work_exp" name="work_exp" required
+              class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:outline-dark-gray mb-4"
+              placeholder="e.g., 2">
+              <label for="min_wage" class="block text-sm font-medium mb-1">Minimum Wage Expectation ($)</label>
+              <input type="number" id="min_wage" name="min_wage" required
+              class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:outline-dark-gray mb-4"
+              placeholder="e.g., 2000">
+              <div class="space-y-2">
+                <label class="block font-semibold text-gray-700">Select Your Skills:</label>
+                <div class="flex flex-wrap gap-3">
+                  <!-- Each label wraps a hidden checkbox and a styled button -->
+                  <label class="cursor-pointer">
+                    <input type="checkbox" name="skills[]" value="HTML" class="hidden peer">
+                    <div class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 peer-checked:bg-gray-600 peer-checked:text-white peer-checked:border-gray-700 transition">
+                      HTML
+                    </div>
+                  </label>
+              
+                  <label class="cursor-pointer">
+                    <input type="checkbox" name="skills[]" value="CSS" class="hidden peer">
+                    <div class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 peer-checked:bg-gray-600 peer-checked:text-white peer-checked:border-gray-700 transition">
+                      CSS
+                    </div>
+                  </label>
+              
+                  <label class="cursor-pointer">
+                    <input type="checkbox" name="skills[]" value="JavaScript" class="hidden peer">
+                    <div class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 peer-checked:bg-gray-600 peer-checked:text-white peer-checked:border-gray-700 transition">
+                      JavaScript
+                    </div>
+                  </label>
+              
+                  <label class="cursor-pointer">
+                    <input type="checkbox" name="skills[]" value="Python" class="hidden peer">
+                    <div class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 peer-checked:bg-gray-600 peer-checked:text-white peer-checked:border-gray-700 transition">
+                      Python
+                    </div>
+                  </label>
+                </div>
+              </div>
+              
+          </div>
+              
+
+          <div class="substep hidden" data-step="4" data-substep="1">
+            <div class="mb-6">
+                <label class="block text-lg font-semibold text-gray-800 mb-2">Experience</label>
+              
+                <!-- Add button -->
+                <button
+                    type="button"
+                    id="add-experience-btn"
+                    class="mt-3 px-4 py-2 bg-dark-blue text-white rounded-lg hover:bg-dark-dark-blue transition"
+                >
+                    + Add Experience
+                </button>
+        
+                <!-- Scrollable container -->
+                <div
+                    id="experience-container"
+                    class="max-h-60 overflow-y-auto space-y-4 p-8"
+                >
+                    <!-- Dynamic experience inputs will go here -->
+                </div>
+            
+            </div>
+            
+            <script>
+                const addExperienceBtn = document.getElementById("add-experience-btn");
+                const experienceContainer = document.getElementById("experience-container");
+
+                let experienceCount = JSON.parse(localStorage.getItem('experienceCount')) || 0;
+                let experiences = JSON.parse(localStorage.getItem('experiences')) || [];
+
+                // Load saved experiences from localStorage
+                if (experiences.length > 0) {
+                    experiences.forEach(exp => {
+                        addExperience(exp.position, exp.company, exp.startDate, exp.endDate, exp.description);
+                    });
+                    experienceCount = experiences.length; // Set experienceCount based on the length of saved experiences
+                }
+
+                // Add new experience
+                addExperienceBtn.addEventListener("click", () => {
+                    experienceCount++;
+                    addExperience('', '', '', '', ''); // Add an empty experience for user input
+                });
+
+                function addExperience(position = '', company = '', startDate = '', endDate = '', description = '') {
+                    const experienceDiv = document.createElement("div");
+                    experienceDiv.className = "border p-4 rounded-lg bg-gray-50 relative";
+
+                    experienceDiv.innerHTML = `
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Position</label>
+                            <input type="text" id="exp_position_${experienceCount}" name="experiences[${experienceCount}][position]" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                                placeholder="Job Position" value="${position}">
+                        </div>
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Company</label>
+                            <input type="text" id="exp_company_${experienceCount}" name="experiences[${experienceCount}][company]" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                                placeholder="Company Name" value="${company}">
+                        </div>
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Start Year</label>
+                            <select 
+                                id="exp_start_year_${experienceCount}" 
+                                name="experiences[${experienceCount}][start_year]" 
+                                required 
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                            >
+                                {% for year in years %}
+                                    <option value="{{ year }}" {% if year == experience.start_year %}selected{% endif %}>{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">End Year</label>
+                            <select 
+                                id="exp_end_year_${experienceCount}" 
+                                name="experiences[${experienceCount}][end_year]" 
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                            >   
+                                <option value="" {% if experience.end_year == "" or experience.end_year is none %}selected{% endif %}>Current</option>
+                                {% for year in years %}
+                                    <option value="{{ year }}" {% if year == experience.end_year %}selected{% endif %}>{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="exp_description_${experienceCount}" name="experiences[${experienceCount}][description]"
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                                placeholder="Describe your role...">${description}</textarea>
+                        </div>
+                        <button type="button" class="absolute top-2 right-2 text-red-600 text-sm hover:underline remove-exp-btn">Remove</button>
+                    `;
+
+                    experienceContainer.appendChild(experienceDiv);
+
+                    // Dynamically handle required for end_year dropdown
+                    const endYearSelect = experienceDiv.querySelector(`#exp_end_year_${experienceCount}`);
+
+                    // Check if the value is "Current" (empty value), and make the field optional
+                    if (endYearSelect.value === "") {
+                        endYearSelect.removeAttribute('required'); // Make optional if "Current" is selected
+                    } else {
+                        endYearSelect.setAttribute('required', 'true'); // Make required if a year is selected
+                    }
+
+                    // Handle change event to toggle the 'required' attribute dynamically
+                    endYearSelect.addEventListener("change", () => {
+                        if (endYearSelect.value === "") {
+                            endYearSelect.removeAttribute('required');
+                        } else {
+                            endYearSelect.setAttribute('required', 'true');
+                        }
+                    });
+
+                    // Remove handler
+                    experienceDiv.querySelector('.remove-exp-btn').addEventListener("click", () => {
+                        experienceDiv.remove();
+                        experiences = experiences.filter(exp => exp.id !== experienceCount);
+                        localStorage.setItem('experiences', JSON.stringify(experiences));
+                    });
+
+                    // Add to localStorage when input changes
+                    const expPositionInput = experienceDiv.querySelector(`#exp_position_${experienceCount}`);
+                    expPositionInput.addEventListener("input", () => {
+                        experiences = experiences.filter(exp => exp.id !== experienceCount); // Remove old one
+                        experiences.push({
+                            id: experienceCount,
+                            position: expPositionInput.value,
+                            company: experienceDiv.querySelector(`#exp_company_${experienceCount}`).value,
+                            startDate: experienceDiv.querySelector(`#exp_start_date_${experienceCount}`).value,
+                            endDate: experienceDiv.querySelector(`#exp_end_date_${experienceCount}`).value,
+                            description: experienceDiv.querySelector(`#exp_description_${experienceCount}`).value
+                        });
+                        localStorage.setItem('experiences', JSON.stringify(experiences));
+                        localStorage.setItem('experienceCount', experienceCount); // Update experienceCount in localStorage
+                    });
+                }
+
+            </script>
+          </div>
+
+
+          <div class="substep hidden" data-step="4" data-substep="2">
+
+              <div class="mb-6">
+                <label class="block text-lg font-semibold text-gray-800 mb-2">Certifications & Licenses</label>
+              
+                <!-- Add button -->
+                <button
+                  type="button"
+                  id="add-certification-btn"
+                  class="mt-3 px-4 py-2 bg-dark-blue text-white rounded-lg hover:bg-dark-dark-blue transition"
+                >
+                  + Add Certification
+                </button>
+
+                <!-- Scrollable container -->
+                <div
+                  id="certification-container"
+                  class="max-h-60 overflow-y-auto space-y-4 p-8"
+                >
+                  <!-- Dynamic inputs will go here -->
+                </div>
+              
+              </div>
+              
+              <script>
+                const addBtn = document.getElementById("add-certification-btn");
+                const container = document.getElementById("certification-container");
+            
+                let certCount = JSON.parse(localStorage.getItem('certCount')) || 0;
+                let certifications = JSON.parse(localStorage.getItem('certifications')) || [];
+            
+                // Load saved certifications from localStorage
+                if (certifications.length > 0) {
+                    certifications.forEach(cert => {
+                        addCertification(cert.name, cert.file);
+                    });
+                    certCount = certifications.length; // Set certCount based on the length of saved certifications
+                }
+            
+                // Add new certification
+                addBtn.addEventListener("click", () => {
+                    certCount++;
+                    addCertification('', ''); // Add an empty certification for user input
+                });
+            
+                function addCertification(certName = '', certFile = '') {
+                    const certDiv = document.createElement("div");
+                    certDiv.className = "border p-4 rounded-lg bg-gray-50 relative";
+            
+                    // Use certCount to ensure unique id for each input
+                    certDiv.innerHTML = `
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Certification Name</label>
+                            <input type="text" id="certi_name_${certCount}" name="certifications[${certCount}][name]" required
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                            placeholder="Certificate Name" value="${certName}">
+                        </div>
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700">Upload Certificate (PDF/Image)</label>
+                            <input type="file" name="certifications[${certCount}][file]"
+                            class="mt-1 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200">
+                        </div>
+                        <button type="button" class="absolute top-2 right-2 text-red-600 text-sm hover:underline remove-cert-btn">Remove</button>
+                    `;
+            
+                    container.appendChild(certDiv);
+            
+                    // Remove handler
+                    certDiv.querySelector('.remove-cert-btn').addEventListener("click", () => {
+                        certDiv.remove();
+                        certifications = certifications.filter(cert => cert.id !== certCount);
+                        localStorage.setItem('certifications', JSON.stringify(certifications));
+                    });
+            
+                    // Add to localStorage when input changes
+                    const certNameInput = certDiv.querySelector(`#certi_name_${certCount}`);
+                    certNameInput.addEventListener("input", () => {
+                        // Store the updated certification name into the certifications array
+                        certifications = certifications.filter(cert => cert.id !== certCount); // Remove old one
+                        certifications.push({
+                            id: certCount,
+                            name: certNameInput.value,
+                            file: "" // We're not storing file paths here for simplicity
+                        });
+                        localStorage.setItem('certifications', JSON.stringify(certifications));
+                        localStorage.setItem('certCount', certCount); // Update certCount in localStorage
+                    });
+                }
+            </script>
+          </div>
+
+            
+          </div>
+          <!-- Step 6 -->
+          <div id="step-6" class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Step 6: Job Preferences</h2>
+            <div class="substep" data-step="5" data-substep="0">
+              <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Job Preferences</h2>
+              
+                <!-- Desired Job Title -->
+                <div class="mb-4">
+                  <label for="desired-title" class="block text-sm font-medium text-gray-700 mb-1">Desired Job Title</label>
+                  <input type="text" id="job_title" name="job_title" required
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                        placeholder="Certificate Name">
+                </div>
+              
+                <!-- Willing to Relocate -->
+                <div class="mb-4">
+                  <span class="block text-sm font-medium text-gray-700 mb-1">Willing to Relocate?</span>
+                  <div class="flex space-x-4">
+                    <label class="cursor-pointer">
+                      <input type="radio" name="relocation" value="Yes" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        Yes
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="radio" name="relocation" value="No" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        No
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              
+                <!-- Preferred Job Type -->
+                <div class="mb-4">
+                  <span class="block text-sm font-medium text-gray-700 mb-1">Preferred Job Type</span>
+                  <div class="flex flex-wrap gap-3">
+                    <label class="cursor-pointer">
+                      <input type="checkbox" name="job_type[]" value="Onsite" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        Onsite
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="checkbox" name="job_type[]" value="Remote" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        Remote
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="checkbox" name="job_type[]" value="Hybrid" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        Hybrid
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="checkbox" name="job_type[]" value="Contract" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        Contract
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="checkbox" name="job_type[]" value="Internship" class="hidden peer">
+                      <div class="px-4 py-2 rounded-full border border-gray-300 peer-checked:bg-gray-500 peer-checked:text-white hover:bg-gray-300">
+                        Internship
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+          </div>
+          
+              
+          </div>
+          <!-- Step 7 -->
+
+          <div id="step-7" class="step hidden">
+            <h2 class="text-xl font-semibold mb-4">Step 7: Comfirm Details</h2>
+            <div class="substep" data-step="6" data-substep="0">
+              <div class="mb-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Profile Visibility</label>
+                <div class="flex gap-4">
+                  <label class="cursor-pointer">
+                    <input type="radio" name="visibility" value="public" class="peer hidden" checked>
+                    <div class="w-full rounded-lg border border-gray-300 px-4 py-2 peer-checked:bg-dark-blue peer-checked:text-white peer-checked:border-black transition-all">
+                      Public
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="visibility" value="private" class="peer hidden">
+                    <div class="w-full rounded-lg border border-gray-300 px-4 py-2 peer-checked:bg-dark-blue peer-checked:text-white peer-checked:border-black transition-all">
+                      Private
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="mb-10">
+                  <!-- Scrollable container with enough height for scrolling -->
+                  <div id="confirmationData" class="max-h-[290px] overflow-y-auto p-4 space-y-6 ">
+                      <!-- Data injected here -->
+                  </div>
+
+                  
+              </div>
+              
+                
+
+              <script>
+              function gatherData() {
+                  const firstName = document.querySelector('input[name="first_name"]')?.value || 'N/A';
+                  const lastName = document.querySelector('input[name="last_name"]')?.value || 'N/A';
+                  const email = '{{ email|default:"N/A" }}';
+                  const age = document.querySelector('input[name="age"]')?.value || 'N/A';
+                  const gender = document.querySelector('input[name="gender"]')?.value || 'N/A';
+                  
+                  
+                  const street_address = document.querySelector('input[name="street_address"]')?.value || 'N/A';
+                  // const city = document.querySelector('select[name="city"]')?.value || 'N/A';
+                  // const state = document.querySelector('select[name="state"]')?.value || 'N/A';
+                  const country = document.querySelector('select[name="country"]')?.value || 'N/A';
+
+                  const level_of_education = document.querySelector('select[name="level_of_education"]')?.value || 'N/A';
+                  const field = document.querySelector('select[name="field"]')?.value || 'N/A';
+                  
+                  const school_name = document.querySelector('input[name="school_name"]')?.value || 'N/A';
+                  const school_country = document.querySelector('select[name="school_country"]')?.value || 'N/A';
+                  
+                  const enroll = document.querySelector('input[name="enroll"]')?.value || 'N/A';
+                  const school_from = document.querySelector('select[name="school_from"]')?.value || 'N/A';
+                  const school_to = document.querySelector('select[name="school_to"]')?.value || 'N/A';
+
+
+
+                  const work_exp = document.querySelector('input[name="work_exp"]')?.value || 'N/A';
+                  const min_wage = document.querySelector('input[name="min_wage"]')?.value || 'N/A';
+                  const checkedSkills = Array.from(document.querySelectorAll('input[name="skills[]"]:checked'))
+                             .map(skill => skill.value);
+                  const desiredTitle = document.querySelector('input[name="job_title"]')?.value || 'N/A';
+                  const relocation = document.querySelector('input[name="relocation"]')?.value || 'N/A';
+                  const jobTypes = Array.from(document.querySelectorAll('input[name="job_type[]"]:checked'))
+                             .map(skill => skill.value);
+
+                  return {
+                  firstName, lastName, email, age, gender , street_address , city , state , country , level_of_education , field , school_name , school_country ,school_name , enroll, school_from, school_to, work_exp, min_wage, checkedSkills, desiredTitle, relocation, jobTypes
+                  };
+              }
+
+              function displayConfirmationData(data) {
+                  let html = `
+                  <div>
+                      <h4 class="text-lg font-semibold text-gray-700 mb-2">👤 Personal Information</h4>
+                      <ul class="list-disc list-inside text-gray-700">
+                      <li><strong>Full Name:</strong> ${data.firstName} ${data.lastName}</li>
+                      <li><strong>Email:</strong> ${data.email}</li>
+                      <li><strong>Age:</strong> ${data.age}</li>
+                      <li><strong>Gender:</strong> ${data.gender}</li>
+                      </ul>
+                  </div>
+                  <div>
+                      <h4 class="text-lg font-semibold text-gray-700 mb-2">📱 Contact Information</h4>
+                      <ul class="list-disc list-inside text-gray-700">
+                      <li><strong>Street Address:</strong> ${data.street_address}</li>
+                      <li><strong>Country:</strong> ${data.country}</li>
+                      </ul>
+                  </div>
+                  <div>
+                      <h4 class="text-lg font-semibold text-gray-700 mb-2"🎓 Education Information</h4>
+                      <ul class="list-disc list-inside text-gray-700">
+                      <li><strong>Level of Education:</strong> ${data.level_of_education}</li>
+                      <li><strong>Field:</strong> ${data.field}</li>
+                      <li><strong>School Name:</strong> ${data.school_name}</li>
+                      <li><strong>School Country:</strong> ${data.school_country}</li>
+                      <li><strong>Currently Enrolled ? :</strong> ${data.enroll}</li>
+                      <li><strong>School Start:</strong> ${data.school_from}</li>
+                      <li><strong>School End:</strong> ${data.school_to}</li>
+                      </ul>
+                  </div>
+
+                  <div>
+                      <h4 class="text-lg font-semibold text-gray-700 mb-2">💼 Job Preferences</h4>
+                      <ul class="list-disc list-inside text-gray-700">
+                      <li><strong>Work Experience:</strong> ${data.work_exp}</li>
+                      <li><strong>Minimum Wage Expectations:</strong> ${data.min_wage}</li>
+                      <li><strong>Skills:</strong> ${data.checkedSkills}</li>
+                      <li><strong>Desired Job Title:</strong> ${data.desiredTitle}</li>
+                      <li><strong>Relocation ? :</strong> ${data.relocation}</li>
+                      <li><strong>Job Type:</strong> ${data.jobTypes}</li>
+                      </ul>
+                  </div>`;
+
+
+                  
+                  console.log(html.length);
+                  document.getElementById('confirmationData').innerHTML = html;
+              }
+
+              // Render confirmation data on DOM load
+              window.addEventListener('DOMContentLoaded', () => {
+                  const formInputs = document.querySelectorAll('input, textarea, select');
+                  
+                  // Display once initially
+                  displayConfirmationData(gatherData());
+
+                  // Update whenever form inputs change
+                  formInputs.forEach(input => {
+                  input.addEventListener('input', () => {
+                      displayConfirmationData(gatherData());
+                  });
+                  input.addEventListener('change', () => {
+                      displayConfirmationData(gatherData());
+                  });
+                  });
+              });
+              </script>
+    
+            </div>
+              
+              
+          </div>
+          <!-- Navigation Buttons -->
+          <div class="flex justify-between items-center absolute bottom-0 left-0 w-full px-10 pb-6">
+            <button id="prev-btn" type="button" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg">Previous</button>
+            <button id="next-btn" type="button" class="bg-dark-blue text-white px-6 py-2 rounded-lg">Next</button>
+            <input type="submit" value="Finish Registration" id="submitBtn" class="bg-dark-blue text-white px-6 py-2 rounded-lg hidden" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="-mt-4 text-center text-gray-500 border-t border-gray-100">© 2025 Jobify. All rights
+      reserved.</div>
+
+
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const allProgressBars = document.querySelectorAll('[id^="progress-step-"]');
+          allProgressBars.forEach(bar => {
+            bar.style.width = '0%';  // Force it to 0%
+            bar.classList.remove("bg-green-500");
+            bar.classList.add("bg-dark-blue-purple");
+
+            if (bar.id === "progress-step-0") {
+              bar.style.width = '0%'; // Enforce again
+            }
+
+            updateSubstepProgress(0, 0, 1);
+          });
+
+        });
+        const countrySelect = document.getElementById('country');
+        const schoolCountrySelect = document.getElementById('school_country');
+        const stateSelect = document.getElementById('state');
+        const schoolStateSelect = document.getElementById('school_state');
+        const citySelect = document.getElementById('city');
+        const schoolCitySelect = document.getElementById('school_city');
+      
+        // Handle Country Change
+        function handleCountryChange() {
+          const country = countrySelect.value;
+          localStorage.setItem('country', country); // Save country selection
+          updateStateVisibility(country); // Show relevant states based on selected country
+          resetCityOptions(); // Reset city options when country changes
+        }
+      
+        // Handle State Change
+        function handleStateChange() {
+          const state = stateSelect.value;
+          localStorage.setItem('state', state); // Save state selection
+          updateCityVisibility(state); // Show relevant cities based on selected state
+        }
+      
+        // Handle City Change
+        function handleCityChange() {
+          const city = citySelect.value;
+          localStorage.setItem('city', city); // Save city selection
+        }
+      
+        // Show State Options based on Country
+        function updateStateVisibility(country) {
+          const states = document.querySelectorAll('.state-option');
+          
+          states.forEach(stateOption => {
+            if (stateOption.dataset.country === country || country === 'all') {
+              stateOption.style.display = 'block'; // Show matching state options
+            } else {
+              stateOption.style.display = 'none'; // Hide non-matching state options
+            }
+          });
+      
+          stateSelect.disabled = false; // Enable state selection after country is selected
+        }
+      
+        // Show City Options based on State
+        function updateCityVisibility(state) {
+          const cities = document.querySelectorAll('.city-option');
+          
+          cities.forEach(cityOption => {
+            if (cityOption.dataset.state === state || state === 'all') {
+              cityOption.style.display = 'block'; // Show matching city options
+            } else {
+              cityOption.style.display = 'none'; // Hide non-matching city options
+            }
+          });
+      
+          citySelect.disabled = false; // Enable city selection after state is selected
+        }
+      
+        // Reset City Options when Country changes
+        function resetCityOptions() {
+          const cities = document.querySelectorAll('.city-option');
+          cities.forEach(city => {
+            city.style.display = 'none'; // Hide all city options
+          });
+      
+          citySelect.disabled = true; // Disable city selection until state is selected
+        }
+      
+        // Initialize on Page Load
+        window.onload = () => {
+          const savedCountry = localStorage.getItem('country');
+          const savedState = localStorage.getItem('state');
+          const savedCity = localStorage.getItem('city');
+      
+          if (savedCountry) {
+            countrySelect.value = savedCountry;
+            updateStateVisibility(savedCountry); // Show relevant states
+          }
+          
+          if (savedState) {
+            stateSelect.value = savedState;
+            updateCityVisibility(savedState); // Show relevant cities
+          }
+          
+          if (savedCity) {
+            citySelect.value = savedCity;
+          }
+        };
+      
+        // Event Listeners
+        countrySelect.addEventListener('change', handleCountryChange);
+        schoolCountrySelect.addEventListener('change', handleCountryChange);
+        stateSelect.addEventListener('change', handleStateChange);
+        schoolStateSelect.addEventListener('change', handleStateChange);
+        citySelect.addEventListener('change', handleCityChange);
+        schoolCitySelect.addEventListener('change', handleCityChange);
+      
+        const steps = document.querySelectorAll(".step");
+        const nextBtn = document.getElementById("next-btn");
+        const prevBtn = document.getElementById("prev-btn");
+        const submitBtn= document.getElementById("submitBtn");
+      
+        let currentStep = 0;
+        let substepIndexes = [0, 0, 0, 0, 0, 0, 0];
+      
+        function getSubstepsForStep(step) {
+          return Array.from(document.querySelectorAll(`.substep[data-step="${step}"]`));
+        }
+      
+        function updateStepDisplay() {
+          steps.forEach((stepEl, i) => {
+            stepEl.classList.toggle("hidden", i !== currentStep);
+          });
+          updateButtonStates();
+        }
+      
+        function updateButtonStates() {
+          prevBtn.disabled = currentStep === 0 && substepIndexes[currentStep] === 0;
+          const isLastStep = currentStep === steps.length - 1 && isLastSubstep();
+          if (isLastStep) {
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+          } else {
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+          }
+        }
+      
+        function updateSubstepDisplay() {
+          const substeps = getSubstepsForStep(currentStep);
+          substeps.forEach((el, i) => {
+            el.classList.toggle("hidden", i !== substepIndexes[currentStep]);
+          });
+          updateSubstepProgress(currentStep, substepIndexes[currentStep], substeps.length);
+          updateButtonStates();
+        }
+
+        function resetProgressBars() {
+          steps.forEach((stepEl, stepIndex) => {
+            const progressBar = document.getElementById(`progress-step-${stepIndex}`);
+            
+            if (progressBar) {
+              progressBar.style.width = '0%'; // Reset the progress bar to 0%
+              progressBar.classList.remove("bg-green-500"); // Remove completion color
+              progressBar.classList.add("bg-dark-blue-purple"); // Add initial color
+            }
+          });
+        }
+
+      
+        function updateSubstepProgress(stepIndex, subIndex, total) {
+          const progressBar = document.getElementById(`progress-step-${stepIndex}`);
+          const percent = ((subIndex + 1) / total) * 100;
+          progressBar.style.width = `${percent}%`;
+      
+          if (percent === 100) {
+            progressBar.classList.remove("bg-dark-blue-purple");
+            progressBar.classList.add("bg-green-500");
+          } else {
+            progressBar.classList.remove("bg-green-500");
+            progressBar.classList.add("bg-dark-blue-purple");
+          }
+        }
+      
+        function isLastSubstep() {
+          const substeps = getSubstepsForStep(currentStep);
+          return substepIndexes[currentStep] === substeps.length - 1;
+        }
+      
+        function validateCurrentSubstep() {
+          const substeps = getSubstepsForStep(currentStep);
+          const currentSubstep = substeps[substepIndexes[currentStep]];
+          const requiredInputs = currentSubstep.querySelectorAll('input[required], select[required], textarea[required]');
+          let isValid = true;
+      
+          requiredInputs.forEach(input => {
+            if (!input.value.trim()) {
+              isValid = false;
+              input.classList.add('border-red-500');
+            } else {
+              input.classList.remove('border-red-500');
+            }
+          });
+      
+          return isValid;
+        }
+      
+        // Save form state to localStorage
+        function saveFormState() {
+          const formData = {};
+          document.querySelectorAll('input, select, textarea').forEach((el) => {
+            if (el.type === 'radio' || el.type === 'checkbox') {
+              if (el.checked) {
+                if (el.name === 'skills[]') {
+                  if (!formData[el.name]) {
+                    formData[el.name] = [];
+                  }
+                  formData[el.name].push(el.value);
+                } else if (el.name === 'job_type[]') {
+                  if (!formData[el.name]) {
+                    formData[el.name] = [];
+                  }
+                  formData[el.name].push(el.value);
+                } else if (el.type !== 'file') {
+                  formData[el.name] = el.value;
+                }
+              }
+            } else {
+              formData[el.name || el.id] = el.value;
+            }
+          });
+          localStorage.setItem('formData', JSON.stringify(formData));
+          localStorage.setItem('currentStep', currentStep);
+          localStorage.setItem('substepIndexes', JSON.stringify(substepIndexes));
+        }
+      
+        // Load form state from localStorage
+        async function loadFormState() {
+          const savedFormData = JSON.parse(localStorage.getItem('formData'));
+          const savedStep = localStorage.getItem('currentStep');
+          const savedSubsteps = JSON.parse(localStorage.getItem('substepIndexes'));
+
+          if (savedFormData) {
+            Object.keys(savedFormData).forEach((key) => {
+              const el = document.querySelector(`[name="${key}"], [id="${key}"]`);
+              if (el) {
+                if (el.type === 'radio') {
+                  document.querySelectorAll(`input[name="${key}"]`).forEach((radio) => {
+                    if (radio.value === savedFormData[key]) {
+                      radio.checked = true;
+                    }
+                  });
+                } else if (key === "skills[]") {
+                  const skills = savedFormData[key];
+                  if (Array.isArray(skills)) {
+                    skills.forEach(skill => {
+                      document.querySelectorAll(`input[name="skills[]"]`).forEach((checkbox) => {
+                        if (checkbox.value === skill) {
+                          checkbox.checked = true;
+                        }
+                      });
+                    });
+                  }
+                } else if (key === "job_type[]") {
+                  const job_types = savedFormData[key];
+                  if (Array.isArray(job_types)) {
+                    job_types.forEach(job_type => {
+                      document.querySelectorAll(`input[name="job_type[]"]`).forEach((checkbox) => {
+                        if (checkbox.value === job_type) {
+                          checkbox.checked = true;
+                        }
+                      });
+                    });
+                  }
+                } else if (el.type !== 'file') {
+                  el.value = savedFormData[key];
+                }
+              }
+            });
+          }
+
+          // Reset progress bar to zero on page load
+          resetProgressBars();
+
+          if (savedStep !== null && savedSubsteps !== null) {
+            currentStep = parseInt(savedStep);
+            substepIndexes = savedSubsteps;
+          }
+
+          updateStepDisplay();
+          updateSubstepDisplay();
+        }
+
+        function restoreAllProgressBars() {
+          steps.forEach((stepEl, stepIndex) => {
+            const substeps = getSubstepsForStep(stepIndex);
+            const subIndex = substepIndexes[stepIndex] || 0;
+            const progressBar = document.getElementById(`progress-step-${stepIndex}`);
+            if (progressBar && substeps.length > 0) {
+              const percent = ((subIndex + 1) / substeps.length) * 100;
+              progressBar.style.width = `${percent}%`;
+      
+              if (percent === 100) {
+                progressBar.classList.remove("bg-dark-blue-purple");
+                progressBar.classList.add("bg-green-500");
+              } else {
+                progressBar.classList.remove("bg-green-500");
+                progressBar.classList.add("bg-dark-blue-purple");
+              }
+            }
+          });
+        }
+      
+        nextBtn.addEventListener("click", () => {
+          if (!validateCurrentSubstep()) {
+            window.alert("Please fill in all required fields.");
+            return;
+          }
+      
+          const substeps = getSubstepsForStep(currentStep);
+          const currentSubstep = substeps[substepIndexes[currentStep]];
+      
+          const genderInputs = currentSubstep.querySelectorAll('input[name="gender"]');
+          if (genderInputs.length > 0) {
+            const genderSelected = Array.from(genderInputs).some(input => input.checked);
+            if (!genderSelected) {
+              window.alert("Please select a gender before proceeding.");
+              return;
+            }
+          }
+      
+          if (currentStep === 1 && substepIndexes[currentStep] === 0) {
+            const resumeFile = document.getElementById('resume_file');
+            const buildResume = document.querySelector('input[name="build_resume"]:checked');
+            if (!resumeFile?.files.length && !buildResume) {
+              alert("Please upload a resume or start building your resume before proceeding.");
+              return false;
+            }
+          }
+      
+          if (substepIndexes[currentStep] < substeps.length - 1) {
+            substepIndexes[currentStep]++;
+            updateSubstepDisplay();
+          } else if (currentStep < steps.length - 1) {
+            currentStep++;
+            updateStepDisplay();
+            updateSubstepDisplay();
+          } else {
+            localStorage.clear();
+          }
+      
+          saveFormState();
+        });
+      
+        submitBtn.addEventListener('click', function() {
+           // Reset progress bars before form submission
+           resetProgressBars();
+
+          // Now clear localStorage related to form data (optional based on your needs)
+          localStorage.removeItem('formData');
+          localStorage.removeItem('currentStep');
+          localStorage.removeItem('substepIndexes');
+
+          document.getElementById('job-seeker-form').submit();
+        });
+      
+        prevBtn.addEventListener("click", () => {
+          if (substepIndexes[currentStep] > 0) {
+            substepIndexes[currentStep]--;
+            updateSubstepDisplay();
+          } else if (currentStep > 0) {
+            currentStep--;
+            updateStepDisplay();
+            updateSubstepDisplay();
+          }
+          saveFormState();
+        });
+      
+        loadFormState().then(() => {
+          updateStepDisplay();
+          updateSubstepDisplay();
+          restoreAllProgressBars();
+        });
+      </script>
+      
+      
+  </body>
+  </html>

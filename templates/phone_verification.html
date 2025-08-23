@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jobify | OTP Verification</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    .otp-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem; /* 8px gap between inputs */
+      margin: 1rem 0;
+    }
+    .otp-input {
+      width: 3rem; /* 48px width */
+      height: 3.5rem; /* 56px height */
+      text-align: center;
+      font-size: 1.25rem; /* 20px */
+      font-weight: 600;
+      border-radius: 0.5rem; /* 8px */
+      border: 2px solid #1e3a8a; /* dark-dark-blue color */
+      background-color: #f3f4f6; /* bg-gray-100 */
+      color: #111827; /* text-gray-900 */
+    }
+    .dark .otp-input {
+      background-color: #1f2937; /* dark:bg-gray-800 */
+      color: #e5e7eb; /* dark:text-gray-200 */
+      border-color: #1e3a8a; /* dark-dark-blue color */
+    }
+  </style>
+</head>
+
+<body class="bg-gray-300 flex flex-col items-center justify-center h-screen w-full dark:bg-gray-900">
+  <div class="w-full max-w-md px-8 py-10 bg-white rounded-lg shadow-md dark:bg-gray-950 dark:text-gray-200">
+    {% if not otp_sent %}
+      <!-- Step 1: Enter Phone -->
+      <div id="phone-step">
+        <h1 class="text-2xl font-semibold text-center mb-6">Verify Your Phone</h1>
+        <p class="text-gray-600 text-center mb-4">Enter your phone number to receive an OTP.</p>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="flex gap-2 mb-6">
+            <select name="country_code" class="p-3 rounded-lg bg-white dark:bg-gray-800 dark:text-gray-200 text-sm w-24 border-2 border-dark-dark-blue">
+              <option value="+91" {% if form.country_code.value == "+91" %}selected{% endif %}>+91</option>
+              <option value="+1" {% if form.country_code.value == "+1" %}selected{% endif %}>+1</option>
+              <option value="+44" {% if form.country_code.value == "+44" %}selected{% endif %}>+44</option>
+            </select>
+            <input type="tel" name="phone_number" placeholder="Phone number" 
+                   class="w-full p-3 rounded-lg dark:bg-gray-800 dark:text-gray-200 border-2 border-dark-dark-blue"
+                   value="{{ form.phone_number.value|default_if_none:'' }}" />
+          </div>
+
+          {% if form.phone_number.errors %}
+            <div class="text-red-500 text-sm mb-4">{{ form.phone_number.errors }}</div>
+          {% endif %}
+
+          <button type="submit" name="send_otp" class="w-full px-4 py-2 text-lg font-medium text-white bg-dark-blue rounded-md hover:bg-dark-gray">
+            Send OTP
+          </button>
+        </form>
+      </div>
+    {% else %}
+      <!-- Step 2: Enter OTP -->
+      <div id="otp-step">
+        <h1 class="text-2xl font-semibold text-center mb-6">Enter OTP</h1>
+        <p class="text-gray-600 text-center mb-4">Code sent to {{ phone_number }}</p>
+        
+        {% if resend_success %}
+          <div class="text-green-500 text-center mb-4">New code sent successfully!</div>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="otp-container" id="otp-inputs">
+            {% for i in "123456" %}
+              <input type="text" name="otp_{{i}}" maxlength="1" 
+                     class="otp-input" />
+            {% endfor %}
+          </div>
+
+          {% if form.otp.errors %}
+            <div class="text-red-500 text-sm mb-4">{{ form.otp.errors }}</div>
+          {% endif %}
+
+          <div class="flex items-center flex-col justify-between mb-6">
+            <p class="text-gray-600 text-sm">Didn't receive code?</p>
+            <div class="flex items-center space-x-2">
+              <button type="submit" name="resend_otp" class="px-3 py-2 text-sm font-medium text-center rounded text-gray-500 hover:text-dark-blue">
+                Request Again
+              </button>
+            </div>
+          </div>
+
+          <input type="hidden" name="full_phone" value="{{ phone_number }}">
+          <button type="submit" name="verify_otp" class="w-full px-4 py-2 text-lg font-medium text-white bg-dark-blue rounded-md hover:bg-dark-gray">
+            Verify
+          </button>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger mt-3 text-red-500 text-center">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    // Auto jump OTP logic
+    const otpInputs = document.querySelectorAll('.otp-input');
+
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === "Backspace" && input.value === "" && index > 0) {
+          otpInputs[index - 1].focus();
+        } else if (e.key === "ArrowLeft" && index > 0) {
+          otpInputs[index - 1].focus();
+        } else if (e.key === "ArrowRight" && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      });
+    });
+
+    // Focus first OTP input when page loads
+    if (document.getElementById('otp-step') && otpInputs.length > 0) {
+      otpInputs[0].focus();
+    }
+  </script>
+</body>
+</html>

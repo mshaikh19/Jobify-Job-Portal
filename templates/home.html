@@ -1,0 +1,854 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobify | Home</title>
+    
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
+
+    <!-- Small CSS to Hide elements at 1520px size -->
+    <style>
+        @media(max-width:1520px) {
+            .left-svg {
+                display: none;
+            }
+        }
+
+        /* small css for the mobile nav close */
+        #nav-mobile-btn.close span:first-child {
+            transform: rotate(45deg);
+            top: 4px;
+            position: relative;
+            background: #a0aec0;
+        }
+
+        #nav-mobile-btn.close span:nth-child(2) {
+            transform: rotate(-45deg);
+            margin-top: 0px;
+            background: #a0aec0;
+        }
+    </style>
+</head>
+<body class="w-full overflow-x-hidden antialiased">
+    <!-- Header Section -->
+    
+  <header class="fixed z-100 w-full h-24 bg-white">
+    <div
+        class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0 w-full">
+
+        <a href="{% url 'home' %}" class="relative flex items-center h-full font-black leading-none">        
+            <span class="text-4xl text-gray-800">Jobify</span>
+        </a>
+
+        <nav id="nav"
+            class="absolute top-0 left-0 z-50 flex flex-col items-center justify-between hidden w-full h-64 pt-5 mt-24 text-sm text-gray-800 bg-white border-t border-gray-200 md:w-auto md:flex-row md:h-24 lg:text-base md:bg-transparent md:mt-0 md:border-none md:py-0 md:flex md:relative">
+            <a href="{% url 'home' %}"
+                class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Home</a>
+            <a href="#features"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Find a Job</a>
+            <a href="#testimonials"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Company Reviews</a>
+            
+            <div class="flex flex-col w-full font-medium border-t border-gray-200 md:hidden">
+                <a href="{% url 'profile' %}" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Profile</a>
+                <a href="{% url 'logout' %}"
+                    class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-dark-gray fold-bold">Logout</a>
+            </div>
+        </nav>
+
+        <div
+            class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
+            <a href="{% url 'profile' %}"
+                class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Profile</a>
+            <a href="{% url 'logout' %}"
+                class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white bg-dark-blue rounded shadow-md fold-bold   sm:w-full lg:shadow-none hover:shadow-xl">Logout</a>
+            
+        </div>
+
+        <div id="nav-mobile-btn"
+            class="absolute top-0 right-0 z-50 block w-6 mt-8 mr-10 cursor-pointer select-none md:hidden sm:mt-10">
+            <img src="{% static 'assests/images/menu.png' %}" class="">
+        </div>
+
+    </div>
+</header>
+  
+  
+    <!-- End Header Section-->
+
+    <!-- BEGIN HERO SECTION -->
+    <!-- BEGIN HERO SECTION -->
+    <form id="searchForm" class="relative max-w-lg mx-auto w-full h-full pt-30" method="GET" action="/find-jobs">
+      <div class="flex">
+        <!-- Dropdown button -->
+        <div class="relative">
+          <button id="dropdownButton"
+            type="button"
+            class="w-40 shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" >
+            <span id="selectedCategory">All categories</span>
+            <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+    
+          <!-- Dropdown menu -->
+          <div id="dropdownMenu"
+            class="absolute hidden left-0 z-20 bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-700 max-h-60 overflow-y-auto">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 max-h-60 text-left">
+              <li><button type="button" data-category="Information Technology"
+                  class="categoryOption inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">Information Technology</button>
+              </li>
+              <li><button type="button" data-category="Marketing & Sales"
+                  class="categoryOption inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">Marketing & Sales</button>
+              </li>
+              <!-- Add remaining categories similarly -->
+            </ul>
+          </div>
+        </div>
+    
+        <!-- Search Input -->
+        <div class="relative w-full">
+          <input type="search" id="searchInput" name="query"
+            class="block p-2.5 w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+            placeholder="Search Jobs, Companies, or Skills..." />
+          <button type="submit"
+            class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-dark-blue rounded-e-lg border border-dark-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-light-blue dark:hover:bg-dark-blue-purple dark:focus:ring-blue-800">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            </svg>
+            <span class="sr-only">Search</span>
+          </button>
+        </div>
+      </div>
+    
+      <!-- Hidden input for selected category -->
+      <input type="hidden" name="category" id="selectedCategoryInput" value="All categories">
+    </form>
+    
+    <!-- JS: Toggle dropdown and update hidden input -->
+    <script>
+      const dropdownButton = document.getElementById('dropdownButton');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      const categoryOptions = document.querySelectorAll('.categoryOption');
+      const selectedCategorySpan = document.getElementById('selectedCategory');
+      const selectedCategoryInput = document.getElementById('selectedCategoryInput');
+      const searchForm = document.getElementById('searchForm');
+      const searchInput = document.getElementById('searchInput');
+    
+      dropdownButton.addEventListener('click', () => {
+        dropdownMenu.classList.toggle('hidden');
+      });
+    
+      document.addEventListener('click', (e) => {
+        if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          dropdownMenu.classList.add('hidden');
+        }
+      });
+    
+      categoryOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const category = option.getAttribute('data-category');
+          selectedCategory = category;
+          selectedCategorySpan.textContent = category;
+          selectedCategoryInput.value = category; // Update hidden input
+          dropdownMenu.classList.add('hidden');
+        });
+      });
+    </script>
+    
+      
+    <!-- HERO SECTION END -->
+  <!-- BEGIN FEATURES SECTION -->
+<div id="features" class="relative w-full px-8 sm:px-6 md:px-8 md:py-16 lg:px-12 xl:px-20 lg:py-20 xl:py-30">
+  <div class="container flex flex-col items-center justify-between h-full max-w-7xl text-center mx-auto">
+    
+    <!-- Section Header -->
+    <h2 class="my-5 text-3xl font-semibold tracking-tight text-blue-600 uppercase">Jobs for You</h2>
+    <h3 class="max-w-2xl px-5 mt-2 text-4xl font-extrabold leading-tight text-center text-gray-900 sm:px-0 sm:text-5xl pb-12">
+      Built and Designed with You in Mind
+    </h3>
+
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+      
+      <!-- Job List -->
+      <div id="job-list" class="overflow-y-auto max-h-[30vh] sm:max-h-[60vh] md:max-h-[70vh] lg:max-h-[80vh] xl:max-h-[85vh] pr-1 space-y-4">
+        <!-- Job cards injected by JS -->
+      </div>
+      
+
+      <!-- Sticky Job Detail Panel -->
+      <div class="relative">
+        <div class="sticky top-24 max-h-[75vh] overflow-y-auto bg-white border border-gray-300 shadow-xl rounded-xl p-6 transition-all duration-300 ease-in-out">
+          <div id="job-detail-content" class="text-sm text-gray-800 space-y-4 text-left">
+            <p class="text-gray-400 text-sm">Click a job card to view details here.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+      <!-- JavaScript -->
+      <script>
+        // Job data passed from Django to JavaScript
+        const jobData = JSON.parse('{{ jobs|escapejs }}');  // This will pass the jobs as a JSON array
+        console.log("[DEBUG] The Job Data is : " , jobData)
+        const jobListContainer = document.getElementById("job-list");
+        const jobDetailContent = document.getElementById("job-detail-content");
+        let currentOpenIndex = null;
+  
+        function renderJobCards() {
+          jobData.forEach((job, index) => {
+            const card = document.createElement("div");
+            card.className =
+              "cursor-pointer rounded-xl bg-white hover:bg-gray-100 border border-gray-200 px-6 py-4 shadow-sm transition text-left";
+
+            card.innerHTML = `
+              <h3 class="text-lg font-medium">${job.title}</h3>
+              <p class="mt-2 text-sm text-gray-600">
+                <strong>Company:</strong> ${job.company.name}<br>
+                
+                <strong>Job Type:</strong> ${job.job_type}
+              </p>
+            `;
+
+            card.addEventListener("click", () => showJobDetails(index));
+            jobListContainer.appendChild(card);
+          });
+        }
+
+        function showJobDetails(index) {
+          if (currentOpenIndex === index) {
+            jobDetailContent.innerHTML = `<p class="text-gray-400 text-sm">Click a job card to view details here.</p>`;
+            currentOpenIndex = null;
+          } else {
+            const job = jobData[index];
+            const company = job.company;
+            const fullAddress = "No Data Found"
+            if (jobData.job_location) {
+              const fullAddress = `${jobData.job_location.address}, ${jobData.job_location.city}, ${jobData.job_location.state}, ${jobData.job_location.country}`;
+            }
+            jobDetailContent.innerHTML = `
+              <h2 class="text-xl font-semibold text-gray-800">${job.title}</h2>
+
+              <div class="mt-2 text-sm text-gray-600 space-y-1">
+                <p><strong>Company:</strong> ${company.name}</p>
+                <p><strong>Industry:</strong> ${company.industry}</p>
+                <p><strong>Tagline:</strong> ${company.tagline || '—'}</p>
+                <p><strong>Company Size:</strong> ${company.company_size}</p>
+                <p><strong>Founded:</strong> ${company.founded}</p>
+                <p><strong>Website:</strong> <a href="${company.website}" class="text-blue-600 underline" target="_blank">${company.website}</a></p>
+                <p><strong>LinkedIn:</strong> ${company.linkedin_profile ? `<a href="${company.linkedin_profile}" class="text-blue-600 underline" target="_blank">${company.linkedin_profile}</a>` : '—'}</p>
+                <p><strong>Headquarters:</strong> ${company.headquarters_address?.address}, ${company.headquarters_address?.city}, ${company.headquarters_address?.state}, ${company.headquarters_address?.country}</p>
+                <p><strong>Other Locations:</strong> ${company.locations.map(loc => `${loc.city}, ${loc.state}`).join(', ') || 'None'}</p>
+              </div>
+
+              <div class="mt-4">
+                <p class="font-semibold text-sm text-gray-800">Job Description:</p>
+                <p class="text-sm text-gray-600 mt-1">${job.description}</p>
+              </div>
+
+              <div class="mt-3 text-sm text-gray-600 space-y-1">
+                <p><strong>Experience Required:</strong> ${job.experience_required || 'None'}</p>
+                <p><strong>Salary:</strong> ₹${job.salary}</p>
+                <p><strong>Work Type:</strong> ${job.work_location_type}</p>
+                <p><strong>Language:</strong> ${job.job_language}</p>
+                <p><strong>Location:</strong> ${fullAddress}</p>
+                <p><strong>Start Date:</strong> ${job.expected_start_date || '—'}</p>
+                <p><strong>Deadline:</strong> ${job.application_deadline}</p>
+                <p><strong>Number of Openings:</strong> ${job.number_of_people}</p>
+              </div>
+
+              <div class="mt-4">
+                <p class="font-semibold text-sm text-gray-800">Requirements:</p>
+                <ul class="list-disc list-inside text-sm text-gray-600 mt-1 space-y-1">
+                  ${job.requirements.map(item => `<li>${item}</li>`).join("")}
+                </ul>
+              </div>
+
+              
+
+              <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                <button id="apply-btn-${job.id}" data-id="${job.id}" class="w-full sm:w-auto border border-blue-500 text-blue-600 font-medium px-5 py-2 rounded-md hover:border-blue-700 hover:text-blue-700 transition duration-200">
+                  Apply Now
+                </button>
+
+                <button id="save-btn-${job.id}" class="w-full sm:w-auto border border-gray-400 text-gray-700 font-medium px-5 py-2 rounded-md hover:border-gray-600 hover:text-black transition duration-200">
+                  Save Job
+                </button>
+              </div>
+            `;
+            currentOpenIndex = index;
+            const saveBtn = document.getElementById(`save-btn-${job.id}`);
+            if (saveBtn) {
+              saveBtn.addEventListener("click", () => toggleSave(job.id));
+            }
+          }
+        }
+        renderJobCards();
+
+        function toggleSave(jobId) {
+          console.log("[DEBUG] Save Job Toggle Function");
+          fetch("{% url 'toggle_save_job' %}", {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({ job_id: jobId })
+          })
+          .then(response => response.json())
+          .then(data => {
+            const btn = document.getElementById(`save-btn-${jobId}`);
+            console.log("[DEBUG] The Svae JOb Button : " , btn);
+            if (data.status === 'saved') {
+              btn.textContent = 'Unsave Job';
+            } else if (data.status === 'unsaved') {
+              btn.textContent = 'Save Job';
+            }
+          })
+          .catch(error => console.error("Save job error:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          console.log("DOM Loaded");
+
+          const modal = document.getElementById("applyModal");
+          const closeBtn = document.getElementById("closeApplyModal");
+          const backBtn = document.getElementById("modalBackBtn");
+          const nextBtn = document.getElementById("modalNextBtn");
+          const steps = document.querySelectorAll(".modal-step");
+          const form = document.getElementById("modalApplyForm");
+          let currentStep = 0;
+          let jobId = null;
+
+          if (!modal) {
+              console.error("Modal element #applyModal not found!");
+              return;
+          }
+
+          // Open the modal when an Apply button is clicked (Event delegation)
+          document.body.addEventListener("click", function (event) {
+              const applyBtn = event.target.closest("[id^='apply-btn-']");
+              if (applyBtn) {
+                  jobId = applyBtn.dataset.id;
+
+                  if (!jobId) {
+                      console.error("Job ID not found on Apply button.");
+                      return;
+                  }
+
+                  // Open the modal
+                  modal.classList.remove("hidden");
+                  document.body.classList.add("overflow-hidden");
+                  currentStep = 0;
+                  showStep(currentStep);
+              }
+          });
+
+          // Close modal
+          closeBtn?.addEventListener("click", () => {
+              modal.classList.add("hidden");
+              document.body.classList.remove("overflow-hidden");
+          });
+
+          // Show step in the modal
+          function showStep(index) {
+              steps.forEach((step, i) => {
+                  step.classList.toggle("hidden", i !== index);
+              });
+              backBtn.classList.toggle("hidden", index === 0);
+              nextBtn.textContent = index === steps.length - 1 ? "Apply Now" : "Continue";
+          }
+
+          // Back button
+          backBtn?.addEventListener("click", () => {
+              if (currentStep > 0) {
+                  currentStep--;
+                  showStep(currentStep);
+              }
+          });
+
+          // Next or Submit (on Apply Now)
+          nextBtn?.addEventListener("click", () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            } else {
+                const answers = {};
+                document.querySelectorAll("[data-question]").forEach(input => {
+                    const questionText = input.dataset.question?.trim();
+                    const answerText = input.value?.trim();
+                    if (questionText) {
+                        answers[questionText] = answerText || "";  // Store empty string if no answer
+                    }
+                });
+
+                const customAnswersField = document.getElementById("id_custom_answers");
+                if (customAnswersField) {
+                    customAnswersField.value = JSON.stringify(answers);
+                }
+
+                // Handle resume field selection
+                const resumeOption = document.querySelector('input[name="resume_option"]:checked').value;
+                const useProfileResumeField = document.getElementById("useProfileResumeField");
+                const resumeUploadField = document.getElementById("resumeUploadField");
+
+                if (resumeOption === "upload" && !resumeUploadField.querySelector("input[type='file']").files.length) {
+                    alert("Please upload a resume.");
+                    return;
+                }
+
+                // Append resume data to formData based on selected option
+                const formData = new FormData(form);
+                formData.append("job_id", jobId);
+
+                if (resumeOption === "upload") {
+                    const resumeFile = resumeUploadField.querySelector("input[type='file']").files[0];
+                    if (resumeFile) {
+                        formData.append("resume", resumeFile);
+                    }
+                } else if (resumeOption === "profile") {
+                    formData.append("use_profile_resume", useProfileResumeField.value);  // Indicate profile resume usage
+                }
+
+                const url = `/apply/${jobId}/`;  // Adjust the URL path as per your backend route
+
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                    },
+                    body: formData,
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        modal.classList.add("hidden");
+                        document.body.classList.remove("overflow-hidden");
+                        form.reset();
+
+                        const applyBtn = document.getElementById(`apply-btn-${jobId}`);
+                        if (applyBtn) {
+                            applyBtn.textContent = "Already Applied";
+                            applyBtn.disabled = true;
+                            applyBtn.classList.add("opacity-50", "cursor-not-allowed");  // Optional Tailwind styling
+                        }
+                    } else {
+                        console.error(data.errors);
+                        alert(data.errors);
+                        modal.classList.add("hidden");
+                        document.body.classList.remove("overflow-hidden");
+                        form.reset();
+                    }
+                })
+                .catch(err => {
+                    console.error("AJAX error:", err);
+                    alert("Something went wrong. Try again.");
+                });
+            }
+        });
+
+          // CSRF helper function
+          function getCookie(name) {
+              let cookieValue = null;
+              if (document.cookie && document.cookie !== "") {
+                  const cookies = document.cookie.split(";");
+                  for (let i = 0; i < cookies.length; i++) {
+                      const cookie = cookies[i].trim();
+                      if (cookie.substring(0, name.length + 1) === name + "=") {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+      });
+
+      </script>
+
+    </div>
+  </div>
+  <!-- END FEATURES SECTION -->
+   
+
+    <footer class="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200">
+        <div class="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row text-start">
+            <div class="w-full pl-12 mr-4 lg:w-1/4 sm:pl-0">
+                <a href="#"
+                    class="flex items-start">
+                    <span class="">
+                        <p class=" mr-4 text-5xl text-dark-blue font-bold">Jobify</p>
+                        <p class="mt-6 mr-4 text-base text-gray-500">Helping people find jobs and companies hire smarter — that's what we do. Jobify connects job seekers with employers across all industries and experience levels.
+                        </p>
+                    </span>
+                </a>
+            </div>
+            <div class="block w-full pl-10 mt-6 text-sm lg:w-3/4 sm:flex lg:mt-0">
+                <ul class="flex flex-col w-full p-0 font-medium text-left text-gray-700 list-none">
+                    <li class="inline-block px-3 py-2 mt-5 font-bold tracking-wide text-gray-800 uppercase md:mt-0">
+                        Quick Links</li>
+                    <li><a href="#features"
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Features</a>
+                    </li>
+                    <li><a href=""
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Find a Job</a>
+                    </li>
+                    <li><a href="#"
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Log In</a>
+                    </li>
+                    <li><a href="#_"
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Sign Up</a></li>
+                </ul>
+                <ul class="flex flex-col w-full p-0 font-medium text-left text-gray-700 list-none">
+                    <li class="inline-block px-3 py-2 mt-5 font-bold tracking-wide text-gray-800 uppercase md:mt-0">
+                        Legal</li>
+                    <li><a href="#_"
+                            class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Privacy</a>
+                    </li>
+                    <li><a href="#_" class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Terms
+                            of
+                            Service</a></li>
+                </ul>
+
+                <div class="flex flex-col w-full text-gray-700">
+                    <div class="inline-block px-3 py-2 mt-5 font-bold text-gray-800 uppercase md:mt-0">Follow Us</div>
+                    <div class="flex justify-start pl-4 mt-2">
+                        <a class="flex items-center block mr-6 text-gray-400 no-underline hover:text-gray-600"
+                            rel="noopener noreferrer" href="#">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.998 12c0-6.628-5.372-12-11.999-12C5.372 0 0 5.372 0 12c0 5.988 4.388 10.952 10.124 11.852v-8.384H7.078v-3.469h3.046V9.356c0-3.008 1.792-4.669 4.532-4.669 1.313 0 2.686.234 2.686.234v2.953H15.83c-1.49 0-1.955.925-1.955 1.874V12h3.328l-.532 3.469h-2.796v8.384c5.736-.9 10.124-5.864 10.124-11.853z" />
+                            </svg>
+                        </a>
+                        <a class="flex items-center block mr-6 text-gray-400 no-underline hover:text-gray-600"
+                            rel="noopener noreferrer" href="#">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23.954 4.569a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.061a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 002.46-2.548l-.047-.02z" />
+                            </svg>
+                        </a>
+                        <a class="flex items-center block text-gray-400 no-underline hover:text-gray-600"
+                            target="_blank" rel="noopener noreferrer" href="https://github.com/mshaikh19/Job-Portal">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-4 pt-6 mt-10 text-center text-gray-500 border-t border-gray-100">© 2025 Jobify. All rights
+            reserved.</div>
+
+    </footer>
+
+
+    <!-- Modal Background -->
+
+<!-- Modal Wrapper -->
+<div id="applyModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-xl p-6 relative">
+    
+    <!-- Close Button -->
+    <button id="closeApplyModal" class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl">&times;</button>
+    
+    <!-- Header -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Apply for This Job</h2>
+
+    <!-- Modal Steps -->
+    <form id="modalApplyForm" class="space-y-4">
+      <!-- Step 1: Basic Info -->
+      <div class="modal-step" data-step="1">
+        
+        <label class="block text-sm font-medium text-gray-700">First Name</label>
+        <input type="text" disabled name="name" class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md" placeholder="John" value="{{job_seeker.user.first_name}}" />
+        <label class="block text-sm font-medium text-gray-700">Last Name</label>
+        <input type="text" disabled name="name" class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md" placeholder="Doe" value="{{job_seeker.user.last_name}}" />
+
+        <label class="block text-sm font-medium text-gray-700 mt-4">Email</label>
+        <input type="email" name="email" class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md" placeholder="john@example.com" disabled value="{{job_seeker.user.email}}" />
+      </div>
+
+      <!-- Step 2: Phone & Cover Letter -->
+      <div class="modal-step hidden" data-step="2">
+        <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+        <input type="text" disabled name="phone" class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md" placeholder="+1 555 123 4567" value="{{job_seeker.user.phone_number}}"/>
+
+        <label class="block text-sm font-medium text-gray-700 mt-4">Cover Letter (optional)</label>
+        {{ application_form.cover_letter }}
+        {% if application_form.cover_letter.errors %}
+          <ul class="text-red-600 list-none">
+            {% for error in application_form.cover_letter.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+         </ul>
+        {% endif %}
+
+        <!-- Radio: Use profile resume -->
+        <div class="flex items-center mb-2">
+          <input type="radio" name="resume_option" value="profile" id="resumeProfile"
+                class="mr-2" checked>
+          <label for="resumeProfile">Use resume from profile</label>
+        </div>
+
+        <!-- Radio: Upload new resume -->
+        <div class="flex items-center mb-2">
+          <input type="radio" name="resume_option" value="upload" id="resumeUpload"
+                class="mr-2">
+          <label for="resumeUpload">Upload a new resume</label>
+        </div>
+
+        <!-- Conditional upload field -->
+        <div id="resumeUploadField" class="hidden mt-2">
+          <input type="file" class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md" name="resume" />
+        </div>
+
+        <!-- Hidden field to hold fallback resume path if needed -->
+        <input type="hidden" name="use_profile_resume" id="useProfileResumeField" value="true">
+      </div>
+
+      <script>
+        const resumeUploadRadio = document.getElementById("resumeUpload");
+        const resumeProfileRadio = document.getElementById("resumeProfile");
+        const resumeUploadField = document.getElementById("resumeUploadField");
+        const useProfileResumeField = document.getElementById("useProfileResumeField");
+
+        resumeUploadRadio?.addEventListener("change", () => {
+        resumeUploadField.classList.remove("hidden");
+        useProfileResumeField.value = "false";
+        });
+
+        resumeProfileRadio?.addEventListener("change", () => {
+        resumeUploadField.classList.add("hidden");
+        useProfileResumeField.value = "true";
+        });
+
+      </script>
+
+      <!-- Step 3: Custom Questions -->
+      
+      {% if custom_questions %}
+      <div class="modal-step hidden" data-step="3">
+        {% for question in custom_questions %}
+          <label class="block text-sm font-medium text-gray-700 mt-4">{{ question }}</label>
+          <input
+            type="text"
+            name="custom_question_{{ forloop.counter }}"
+            data-question="{{ question }}"
+            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md"
+            placeholder="Answer here...">
+        {% endfor %}
+
+        {{ application_form.custom_answers }}
+        {% if application_form.custom_answers.errors %}
+          <ul class="text-red-600 list-none">
+            {% for error in application_form.custom_answers.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      {% endif %}
+      <script>
+        document.getElementById("modalNextBtn").addEventListener("click", function () {
+          const currentStep = parseInt(currentStepElement.dataset.step);
+          if (currentStep === 3) {
+            const inputs = document.querySelectorAll('[name^="custom_question_"]');
+            const answers = {};
+
+            inputs.forEach(input => {
+              const questionText = input.dataset.question;
+              const answerText = input.value;
+              if (questionText) {
+                answers[questionText] = answerText;
+              }
+            });
+
+            const hiddenField = document.getElementById("id_custom_answers"); // Django's rendered field ID
+            if (hiddenField) {
+              hiddenField.value = JSON.stringify(answers);
+            }
+          }
+        });
+
+
+      </script>
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between pt-6">
+        <button type="button" id="modalBackBtn" class="hidden px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Back</button>
+        <button type="button" id="modalNextBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Continue</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  if (document.getElementById('nav-mobile-btn')) {
+      document.getElementById('nav-mobile-btn').addEventListener('click', function () {
+          if (this.classList.contains('close')) {
+              document.getElementById('nav').classList.add('hidden');
+              this.classList.remove('close');
+          } else {
+              document.getElementById('nav').classList.remove('hidden');
+              this.classList.add('close');
+          }
+      });
+  }
+</script>
+<script>
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   console.log("DOM Loaded");
+
+  //   const modal = document.getElementById("applyModal");
+  //   const closeBtn = document.getElementById("closeApplyModal");
+  //   const backBtn = document.getElementById("modalBackBtn");
+  //   const nextBtn = document.getElementById("modalNextBtn");
+  //   const steps = document.querySelectorAll(".modal-step");
+  //   const form = document.getElementById("modalApplyForm");
+  //   // const jobId = document.getElementById("jobIdField")?.value;
+  //   const customAnswersField = document.getElementById("customAnswersField");
+  //   let currentStep = 0;
+    
+  //   if (!modal) {
+  //     console.error("Modal element #applyModal not found!");
+  //     return;
+  //   }
+    
+  //   // Open modal
+  //   // document.body.addEventListener("click", function (event) {
+  //   //   if (event.target && event.target.id === "openApplyModal") {
+  //   //     modal.classList.remove("hidden");
+  //   //     document.body.classList.add("overflow-hidden");
+  //   //     currentStep = 0;
+  //   //     showStep(currentStep);
+  //   //   }
+  //   // });
+    
+  //   let jobId = null;
+
+  //   document.addEventListener("click", function (event) {
+  //     const applyBtn = event.target.closest(".openApplyModal");
+  //     if (applyBtn) {
+  //       jobId = applyBtn.dataset.id;
+
+  //       if (!jobId) {
+  //         console.error("Job ID not found on Apply button.");
+  //         return;
+  //       }
+
+  //       // Open the modal
+  //       modal.classList.remove("hidden");
+  //       document.body.classList.add("overflow-hidden");
+  //       currentStep = 0;
+  //       showStep(currentStep);
+  //     }
+  //   });
+
+
+  //   // Close modal
+  //   closeBtn?.addEventListener("click", () => {
+  //     modal.classList.add("hidden");
+  //     document.body.classList.remove("overflow-hidden");
+  //   });
+    
+  //   // Show step
+  //   function showStep(index) {
+  //     steps.forEach((step, i) => {
+  //       step.classList.toggle("hidden", i !== index);
+  //     });
+  //     backBtn.classList.toggle("hidden", index === 0);
+  //     nextBtn.textContent = index === steps.length - 1 ? "Apply Now" : "Continue";
+  //   }
+    
+  //   // Back button
+  //   backBtn?.addEventListener("click", () => {
+  //     if (currentStep > 0) {
+  //       currentStep--;
+  //       showStep(currentStep);
+  //     }
+  //   });
+    
+  //   // Next or Submit
+  //   nextBtn?.addEventListener("click", () => {
+  //     if (currentStep < steps.length - 1) {
+  //       currentStep++;
+  //       showStep(currentStep);
+  //     } else {
+  //       const answers = {};
+  //       document.querySelectorAll("[data-question]").forEach(input => {
+  //         const questionText = input.dataset.question?.trim();
+  //         const answerText = input.value?.trim();
+  //         if (questionText) {
+  //           answers[questionText] = answerText || "";  // Store empty string if no answer
+  //         }
+  //       });
+
+  //       const customAnswersField = document.getElementById("id_custom_answers");
+  //       if (customAnswersField) {
+  //         customAnswersField.value = JSON.stringify(answers);
+  //       }
+
+        
+  //       // Submit form via fetch
+  //       const formData = new FormData(form);
+  //       const url = `/apply/${jobs.id}/`;
+
+  //       fetch(url, {
+  //         method: "POST",
+  //         headers: {
+  //           "X-CSRFToken": getCookie("csrftoken"),
+  //         },
+  //         body: formData,
+  //       })
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         if (data.success) {
+  //           alert(data.message);
+  //           modal.classList.add("hidden");
+  //           document.body.classList.remove("overflow-hidden");
+  //           form.reset();
+  //         } else {
+  //           console.error(data.errors);
+  //           alert("Failed to apply. Please check your inputs.");
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.error("AJAX error:", err);
+  //         alert("Something went wrong. Try again.");
+  //       });
+  //     }
+  //   });
+
+  //   // CSRF helper
+  //   function getCookie(name) {
+  //     let cookieValue = null;
+  //     if (document.cookie && document.cookie !== "") {
+  //       const cookies = document.cookie.split(";");
+  //       for (let i = 0; i < cookies.length; i++) {
+  //         const cookie = cookies[i].trim();
+  //         if (cookie.substring(0, name.length + 1) === name + "=") {
+  //           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+  //           break;
+  //         }
+  //       }
+  //     }
+  //     return cookieValue;
+  //   }
+  // });
+</script>
+
+
+
+
+</body>
+</html>

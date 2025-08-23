@@ -1,0 +1,999 @@
+{% load static %}
+{% load tz %}
+{% load i18n %}
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <title>Jobify | Employer Sign Up</title>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <div class="min-h-[96vh] flex items-center justify-center">
+    <div class="relative overflow-hidden w-full max-w-6xl bg-white shadow-lg rounded-lg p-8 pb-0 h-[650px]">
+        <div class="flex flex-row items-center justify-between pb-10">
+            
+            <button type="button" class="text-gray-600 hover:text-dark-blue-purple flex items-center"
+                onclick="window.location.href = `{% url 'pre-signup' %}`">
+              <!-- Back arrow -->
+              
+                <img src="{% static 'assests/images/left-arrow.png' %}" class=" w-6 h-6 mr-2">
+              </svg>
+              Back
+            </button>
+
+            <h1 class="text-lg md:text-4xl font-semibold text-center absolute left-1/2 transform -translate-x-1/2">Jobify</h1>
+          </div>
+      <!-- Stepper -->
+      <ol id="stepper" class="hidden md:flex flex-wrap flex-row items-start lg:items-center w-full mb-8 gap-4">
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="0">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-0" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 1</span>
+          </a>
+        </li>
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="1">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-1" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 2</span>
+          </a>
+        </li>
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="2">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-2" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 3</span>
+          </a>
+        </li>
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="3">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-3" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 4</span>
+          </a>
+        </li>
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="4">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-4" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 5</span>
+          </a>
+        </li>
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="5">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-5" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 6</span>
+          </a>
+        </li>
+        <li class="stepper-item flex-1 min-w-[10px]" data-step="6">
+          <div class="w-full h-1 bg-gray-200 rounded mb-2">
+            <div id="progress-step-6" class="h-1 bg-dark-blue w-0 transition-all duration-300"></div>
+          </div>
+          <a href="#" class="step-link font-medium">
+            <span class="text-sm lg:text-base text-dark-blue-purple">Step 7</span>
+          </a>
+        </li>
+      </ol>
+
+      <!-- Form -->
+      <form id="multi-step-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Step 1 -->
+        <div id="step-1" class="step">
+          <h2 class="text-xl font-semibold mb-4">Step 1: Account Setup</h2>
+          
+          <div class="substep" data-step="0" data-substep="0">
+            <input type="password" placeholder="Password" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-blue" name="password" id="password" required/>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-2" class="step hidden">
+          <h2 class="text-xl font-semibold mb-4">Step 2: Employer Profile</h2>
+        
+          <div class="substep" data-step="1" data-substep="0">
+            <input type="text" placeholder="First Name" name="first_name" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" required />
+            <input type="text" placeholder="Last Name" name="last_name" class="w-full mb-4 border border-gray-300 rounded-lg p-3 focus:outline-dark-gray" required />
+          </div>
+          
+          <div class="substep hidden" data-step="1" data-substep="1">
+            <div class="mb-4">
+              <label for="position" class="block text-sm font-medium text-gray-700 mb-1">Your Position / Title</label>
+              <input type="text" id="position" name="position" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="e.g., HR Manager, Recruiter">
+            </div>
+            
+            <div class="mb-4">
+              <label for="linkedin" class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Profile (Optional)</label>
+              <input type="url" id="linkedin" name="linkedin_profile"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray"
+                    placeholder="https://linkedin.com/in/yourprofile">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-3" class="step hidden">
+          <h2 class="text-xl font-semibold mb-4">Step 3: Company Info</h2>
+          
+          <div class="substep" data-step="2" data-substep="0">
+            <div class="mb-4">
+              <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+              <input type="text" id="company_name" name="company_name" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="Enter your company name">
+            </div>
+            
+            <div class="mb-4">
+                <label for="company_email" class="block text-sm font-medium text-gray-700 mb-1">Company Email</label>
+                <input type="email" id="company_email" name="company_email" required
+                      class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                      placeholder="e.g., HR Manager, Recruiter">
+            </div>
+
+            <div class="mb-4">
+              <label for="employees" class="block text-sm font-medium text-gray-700 mb-1">Number of Employees</label>
+              <select id="employees" name="employees" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4">
+                <option value="" disabled selected>Select range</option>
+                <option value="1-10">1-10</option>
+                <option value="11-50">11-50</option>
+                <option value="51-200">51-200</option>
+                <option value="201-500">201-500</option>
+                <option value="500+">500+</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="substep hidden" data-step="2" data-substep="1">
+            <div class="mb-4">
+              <label for="website" class="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
+              <input type="url" id="website" name="website"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="company.com">
+            </div>
+            
+            <div class="mb-4">
+              <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+              <select id="industry" name="industry" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4">
+                <option value="" disabled selected>Select an Industry</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Finance">Finance</option>
+                <option value="Education">Education</option>
+                <option value="Retail">Retail</option>
+                <option value="Construction">Construction</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Marketing & Advertising">Marketing & Advertising</option>
+                <option value="Hospitality">Hospitality</option>
+                <option value="Transportation & Logistics">Transportation & Logistics</option>
+                <option value="Government">Government</option>
+                <option value="Legal">Legal</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Telecommunications">Telecommunications</option>
+                <option value="Energy & Utilities">Energy & Utilities</option>
+                <option value="Nonprofit / NGO">Nonprofit / NGO</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            
+            <div class="mb-4">
+              <label for="foundation_year" class="block text-sm font-medium text-gray-700 mb-1">Foundation Year</label>
+              <input type="number" id="foundation_year" name="foundation_year"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="e.g: 2020">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 4 -->
+        <div id="step-4" class="step hidden">
+          <h2 class="text-xl font-semibold mb-4">Step 4: Company Location</h2>
+          
+          <div class="substep" data-step="3" data-substep="0">
+            <div class="mb-4">
+              <label for="hq_street" class="block text-sm font-medium text-gray-700 mb-1">Headquarters Address</label>
+              <input type="text" id="hq_street" name="hq_street" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="Street Address">
+            </div>
+            
+            <div class="mb-4">
+                <label for="hq_city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <select id="hq_city" name="hq_city" required
+                      class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4">
+                  <option value="" disabled selected>Select city</option>
+                  <!-- India -->
+                  <option value="Mumbai" data-state="Maharashtra" data-country="India">Mumbai</option>
+                  <option value="Delhi" data-state="Delhi" data-country="India">Delhi</option>
+                  <option value="Bangalore" data-state="Karnataka" data-country="India">Bangalore</option>
+                  <option value="Hyderabad" data-state="Telangana" data-country="India">Hyderabad</option>
+                  <option value="Chennai" data-state="Tamil Nadu" data-country="India">Chennai</option>
+                  <!-- USA -->
+                  <option value="New York" data-state="New York" data-country="United States">New York</option>
+                  <option value="Los Angeles" data-state="California" data-country="United States">Los Angeles</option>
+                  <option value="Chicago" data-state="Illinois" data-country="United States">Chicago</option>
+                  <!-- UK -->
+                  <option value="London" data-state="England" data-country="United Kingdom">London</option>
+                  <option value="Manchester" data-state="England" data-country="United Kingdom">Manchester</option>
+                  <!-- Canada -->
+                  <option value="Toronto" data-state="Ontario" data-country="Canada">Toronto</option>
+                  <option value="Vancouver" data-state="British Columbia" data-country="Canada">Vancouver</option>
+                  <!-- Australia -->
+                  <option value="Sydney" data-state="New South Wales" data-country="Australia">Sydney</option>
+                  <option value="Melbourne" data-state="Victoria" data-country="Australia">Melbourne</option>
+                </select>
+              </div>
+              
+              <div class="mb-4">
+                <label for="hq_state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                <select id="hq_state" name="hq_state" required
+                      class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4">
+                  <option value="" disabled selected>Select state</option>
+                  <!-- India -->
+                  <option value="Maharashtra" data-country="India">Maharashtra</option>
+                  <option value="Delhi" data-country="India">Delhi</option>
+                  <option value="Karnataka" data-country="India">Karnataka</option>
+                  <option value="Telangana" data-country="India">Telangana</option>
+                  <option value="Tamil Nadu" data-country="India">Tamil Nadu</option>
+                  <!-- USA -->
+                  <option value="California" data-country="United States">California</option>
+                  <option value="New York" data-country="United States">New York</option>
+                  <option value="Illinois" data-country="United States">Illinois</option>
+                  <!-- UK -->
+                  <option value="England" data-country="United Kingdom">England</option>
+                  <option value="Scotland" data-country="United Kingdom">Scotland</option>
+                  <!-- Canada -->
+                  <option value="Ontario" data-country="Canada">Ontario</option>
+                  <option value="British Columbia" data-country="Canada">British Columbia</option>
+                  <!-- Australia -->
+                  <option value="New South Wales" data-country="Australia">New South Wales</option>
+                  <option value="Victoria" data-country="Australia">Victoria</option>
+                </select>
+              </div>
+            
+            
+            
+            <div class="mb-4">
+              <label for="hq_country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+              <select id="hq_country" name="hq_country" required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray">
+                <option value="" disabled selected>Select country</option>
+                <option value="India">India</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="substep hidden" data-step="3" data-substep="1">
+            <div class="mb-6">
+              <label class="block text-lg font-semibold text-gray-800 mb-2">Company Locations</label>
+            
+              <!-- Add Location Button -->
+              <button type="button" id="add-location-btn" class="mt-3 px-4 py-2 bg-dark-blue text-white rounded-lg hover:bg-dark-dark-blue transition">
+                + Add Location
+              </button>
+            
+              <!-- Scrollable container -->
+              <div id="location-container" class="max-h-60 overflow-y-auto space-y-4 p-8">
+                <!-- Dynamic location inputs will appear here -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 5 -->
+        <div id="step-5" class="step hidden">
+          <h2 class="text-xl font-semibold mb-4">Step 5: Branding</h2>
+          
+          <div class="substep" data-step="4" data-substep="0">
+            <div class="mb-4">
+              <label for="company_logo" class="block text-sm font-medium text-gray-700 mb-1">Company Logo</label>
+              <input type="file" id="company_logo" name="company_logo"
+                    class="mt-1 p-3 rounded-lg block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 border border-gray-600 mb-4">
+            </div>
+            
+            <div class="mb-4">
+              <label for="tagline" class="block text-sm font-medium text-gray-700 mb-1">Tagline / Slogan</label>
+              <input type="text" id="tagline" name="tagline"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="Company Tagline">
+            </div>
+            
+            <div class="mb-4">
+              <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Company Description</label>
+              <textarea id="description" name="description" rows="4"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"></textarea>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 6 -->
+        <div id="step-6" class="step hidden">
+          <h2 class="text-xl font-semibold mb-4">Step 6: Legal Info</h2>
+          
+          <div class="substep" data-step="5" data-substep="0">
+            <div class="mb-4">
+              <label for="tax_id" class="block text-sm font-medium text-gray-700 mb-1">Registration Number / Tax ID</label>
+              <input type="text" id="tax_id" name="tax_id"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="e.g., GSTIN, EIN, etc.">
+            </div>
+            
+            <div class="mb-4">
+              <label for="business_license" class="block text-sm font-medium text-gray-700 mb-1">Upload Business License</label>
+              <input type="file" id="business_license" name="business_license"
+                    class="mt-1 p-3 rounded-lg block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 border border-gray-600 mb-4">
+            </div>
+            
+            <div class="mb-4">
+              <label for="policies_link" class="block text-sm font-medium text-gray-700 mb-1">Company Policies Link (optional)</label>
+              <input type="url" id="policies_link" name="policies_link"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray mb-4"
+                    placeholder="https://yourcompany.com/policies">
+            </div>
+            
+            <div class="mb-4">
+              <label for="company_linkedin" class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Company Page</label>
+              <input type="url" id="company_linkedin" name="company_linkedin"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-gray"
+                    placeholder="https://linkedin.com/company/yourcompany">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 7 -->
+        <div id="step-7" class="step hidden">
+          <h2 class="text-xl font-semibold mb-4">Step 7: Confirm Details</h2>
+          
+          <div class="substep" data-step="6" data-substep="0">
+            <div class="mb-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Profile Visibility</label>
+              <div class="flex gap-4">
+                <label class="cursor-pointer">
+                  <input type="radio" name="profile_type" value="public" class="peer hidden" checked>
+                  <div class="w-full rounded-lg border border-gray-300 px-4 py-2 peer-checked:bg-dark-blue peer-checked:text-white peer-checked:border-black transition-all">
+                    Public
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="profile_type" value="private" class="peer hidden">
+                  <div class="w-full rounded-lg border border-gray-300 px-4 py-2 peer-checked:bg-dark-blue peer-checked:text-white peer-checked:border-black transition-all">
+                    Private
+                  </div>
+                </label>
+              </div>
+            </div>
+            
+            <div class="mb-10">
+              <div id="confirmationData" class="max-h-[290px] overflow-y-auto p-4 space-y-6">
+                <!-- Data will be injected here by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center absolute bottom-0 left-0 w-full px-10 pb-6">
+          <button id="prev-btn" type="button" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg">Previous</button>
+          <button id="next-btn" type="button" class="bg-dark-blue text-white px-6 py-2 rounded-lg">Next</button>
+          <input type="submit" value="Finish Registration" id="submitBtn" class="bg-dark-blue text-white px-6 py-2 rounded-lg hidden" />
+        </div>
+      </form>
+
+      
+    </div>
+  </div>
+  <div class="-mt-4 text-center text-gray-500 border-t border-gray-100">© 2025 Jobify. All rights reserved.</div>
+
+  <script>
+    // Country, State, City Selector Logic
+    const countrySelect = document.getElementById('hq_country');
+    const stateSelect = document.getElementById('hq_state');
+    const citySelect = document.getElementById('hq_city');
+
+    function handleCountryChange() {
+      const country = countrySelect.value;
+      updateStateVisibility(country);
+      resetCityOptions();
+    }
+
+    function handleStateChange() {
+      const state = stateSelect.value;
+      updateCityVisibility(state);
+    }
+
+    function updateStateVisibility(country) {
+      const states = document.querySelectorAll('#hq_state option');
+      
+      states.forEach(stateOption => {
+        if (stateOption.dataset.country === country || country === 'all') {
+          stateOption.style.display = 'block';
+        } else {
+          stateOption.style.display = 'none';
+        }
+      });
+
+      stateSelect.disabled = false;
+    }
+
+    function updateCityVisibility(state) {
+      const cities = document.querySelectorAll('#hq_city option');
+      
+      cities.forEach(cityOption => {
+        if (cityOption.dataset.state === state || state === 'all') {
+          cityOption.style.display = 'block';
+        } else {
+          cityOption.style.display = 'none';
+        }
+      });
+
+      citySelect.disabled = false;
+    }
+
+    function resetCityOptions() {
+      const cities = document.querySelectorAll('#hq_city option');
+      cities.forEach(city => {
+        city.style.display = 'none';
+      });
+      citySelect.disabled = true;
+    }
+
+    // Initialize on Page Load
+    window.onload = () => {
+      const savedCountry = localStorage.getItem('country');
+      const savedState = localStorage.getItem('state');
+      const savedCity = localStorage.getItem('city');
+
+      if (savedCountry) {
+        countrySelect.value = savedCountry;
+        updateStateVisibility(savedCountry);
+      }
+      
+      if (savedState) {
+        stateSelect.value = savedState;
+        updateCityVisibility(savedState);
+      }
+      
+      if (savedCity) {
+        citySelect.value = savedCity;
+      }
+    };
+
+    // Event Listeners
+    countrySelect.addEventListener('change', handleCountryChange);
+    stateSelect.addEventListener('change', handleStateChange);
+    citySelect.addEventListener('change', (e) => {
+      localStorage.setItem('city', e.target.value);
+    });
+
+    // Location Management Script
+    const addLocationBtn = document.getElementById("add-location-btn");
+    const locationContainer = document.getElementById("location-container");
+
+    let locationCount = JSON.parse(localStorage.getItem('locationCount')) || 0;
+    let locations = JSON.parse(localStorage.getItem('locations')) || [];
+
+    // Load saved locations from localStorage
+    if (locations.length > 0) {
+        locations.forEach(loc => {
+            addLocation(loc.street, loc.city, loc.state, loc.country);
+        });
+        locationCount = locations.length;
+    }
+
+    // Add new location
+    addLocationBtn.addEventListener("click", () => {
+        locationCount++;
+        addLocation('', '', '', '');
+    });
+
+    function addLocation(street = '', city = '', state = '', country = '') {
+    const locDiv = document.createElement("div");
+    locDiv.className = "border p-4 rounded-lg bg-gray-50 relative";
+
+    locDiv.innerHTML = `
+        <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">Street Address</label>
+            <input type="text" name="locations[${locationCount}][street]" value="${street}"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
+        </div>
+
+        <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">City</label>
+            <select name="locations[${locationCount}][city]"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
+                <option value="" disabled ${city ? '' : 'selected'}>Select city</option>
+                <!-- India -->
+                <option value="Mumbai" data-state="Maharashtra" ${city === 'Mumbai' ? 'selected' : ''}>Mumbai</option>
+                <option value="Delhi" data-state="Delhi" ${city === 'Delhi' ? 'selected' : ''}>Delhi</option>
+                <option value="Bangalore" data-state="Karnataka" ${city === 'Bangalore' ? 'selected' : ''}>Bangalore</option>
+                <!-- USA -->
+                <option value="New York" data-state="New York" ${city === 'New York' ? 'selected' : ''}>New York</option>
+                <option value="Los Angeles" data-state="California" ${city === 'Los Angeles' ? 'selected' : ''}>Los Angeles</option>
+                <!-- UK -->
+                <option value="London" data-state="England" ${city === 'London' ? 'selected' : ''}>London</option>
+                <!-- Canada -->
+                <option value="Toronto" data-state="Ontario" ${city === 'Toronto' ? 'selected' : ''}>Toronto</option>
+                <!-- Australia -->
+                <option value="Sydney" data-state="New South Wales" ${city === 'Sydney' ? 'selected' : ''}>Sydney</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">State</label>
+            <select name="locations[${locationCount}][state]"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
+                <option value="" disabled ${state ? '' : 'selected'}>Select state</option>
+                <!-- India -->
+                <option value="Maharashtra" ${state === 'Maharashtra' ? 'selected' : ''}>Maharashtra</option>
+                <option value="Delhi" ${state === 'Delhi' ? 'selected' : ''}>Delhi</option>
+                <option value="Karnataka" ${state === 'Karnataka' ? 'selected' : ''}>Karnataka</option>
+                <!-- USA -->
+                <option value="California" ${state === 'California' ? 'selected' : ''}>California</option>
+                <option value="New York" ${state === 'New York' ? 'selected' : ''}>New York</option>
+                <!-- UK -->
+                <option value="England" ${state === 'England' ? 'selected' : ''}>England</option>
+                <!-- Canada -->
+                <option value="Ontario" ${state === 'Ontario' ? 'selected' : ''}>Ontario</option>
+                <!-- Australia -->
+                <option value="New South Wales" ${state === 'New South Wales' ? 'selected' : ''}>New South Wales</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">Country</label>
+            <select name="locations[${locationCount}][country]"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" disabled ${country ? '' : 'selected'}>Select country</option>
+                <option value="India" ${country === 'India' ? 'selected' : ''}>India</option>
+                <option value="United States" ${country === 'United States' ? 'selected' : ''}>United States</option>
+                <option value="United Kingdom" ${country === 'United Kingdom' ? 'selected' : ''}>United Kingdom</option>
+                <option value="Canada" ${country === 'Canada' ? 'selected' : ''}>Canada</option>
+                <option value="Australia" ${country === 'Australia' ? 'selected' : ''}>Australia</option>
+            </select>
+        </div>
+
+        <button type="button" class="absolute top-2 right-2 text-red-600 text-sm hover:underline remove-location-btn">Remove</button>
+    `;
+
+
+        locationContainer.appendChild(locDiv);
+
+        // Remove handler
+        locDiv.querySelector('.remove-location-btn').addEventListener("click", () => {
+            locDiv.remove();
+            locations = locations.filter(loc => loc.id !== locationCount);
+            localStorage.setItem('locations', JSON.stringify(locations));
+        });
+
+        // Save to localStorage when inputs change
+        const inputs = locDiv.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const street = locDiv.querySelector(`input[name="locations[${locationCount}][street]"]`).value;
+                const city = locDiv.querySelector(`select[name="locations[${locationCount}][city]"]`).value;
+                const state = locDiv.querySelector(`select[name="locations[${locationCount}][state]"]`).value;
+                const country = locDiv.querySelector(`select[name="locations[${locationCount}][country]"]`).value;
+
+                locations = locations.filter(loc => loc.id !== locationCount);
+                locations.push({
+                    id: locationCount,
+                    street,
+                    city,
+                    state,
+                    country
+                });
+                localStorage.setItem('locations', JSON.stringify(locations));
+                localStorage.setItem('locationCount', locationCount);
+            });
+        });
+    }
+
+    // Multi-step form logic
+    const steps = document.querySelectorAll(".step");
+    const nextBtn = document.getElementById("next-btn");
+    const prevBtn = document.getElementById("prev-btn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    let currentStep = 0;
+    let substepIndexes = [0, 0, 0, 0, 0, 0, 0];
+
+    function getSubstepsForStep(step) {
+      return Array.from(document.querySelectorAll(`.substep[data-step="${step}"]`));
+    }
+
+    function updateStepDisplay() {
+      steps.forEach((stepEl, i) => {
+        stepEl.classList.toggle("hidden", i !== currentStep);
+      });
+      updateButtonStates();
+    }
+
+    function updateButtonStates() {
+      prevBtn.disabled = currentStep === 0 && substepIndexes[currentStep] === 0;
+      const isLastStep = currentStep === steps.length - 1 && isLastSubstep();
+      
+      if (isLastStep) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+      } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+      }
+    }
+
+    function updateSubstepDisplay() {
+      const substeps = getSubstepsForStep(currentStep);
+      substeps.forEach((el, i) => {
+        el.classList.toggle("hidden", i !== substepIndexes[currentStep]);
+      });
+      updateSubstepProgress(currentStep, substepIndexes[currentStep], substeps.length);
+      updateButtonStates();
+    }
+
+    function updateSubstepProgress(stepIndex, subIndex, total) {
+      const progressBar = document.getElementById(`progress-step-${stepIndex}`);
+      const percent = ((subIndex + 1) / total) * 100;
+      progressBar.style.width = `${percent}%`;
+
+      if (percent === 100) {
+        progressBar.classList.remove("bg-dark-blue-purple");
+        progressBar.classList.add("bg-green-500");
+      } else {
+        progressBar.classList.remove("bg-green-500");
+        progressBar.classList.add("bg-dark-blue-purple");
+      }
+    }
+
+    function isLastSubstep() {
+      const substeps = getSubstepsForStep(currentStep);
+      return substepIndexes[currentStep] === substeps.length - 1;
+    }
+
+    function validateCurrentSubstep() {
+      const substeps = getSubstepsForStep(currentStep);
+      const currentSubstep = substeps[substepIndexes[currentStep]];
+      const requiredInputs = currentSubstep.querySelectorAll('input[required], select[required], textarea[required]');
+      let isValid = true;
+
+      requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+          input.classList.add('border-red-500');
+        } else {
+          input.classList.remove('border-red-500');
+        }
+      });
+
+      return isValid;
+    }
+
+    function saveFormState() {
+      const formData = {};
+      document.querySelectorAll('input, select, textarea').forEach((el) => {
+          if (el.type === 'radio' || el.type === 'checkbox') {
+              if (el.checked) {
+                  formData[el.name] = el.value;
+              }
+          } else if (el.type === 'file') {
+              // Skip file inputs
+              return;
+          } else {
+              formData[el.name || el.id] = el.value;
+          }
+      });
+
+      // Store locations separately
+      const locationInputs = document.querySelectorAll('[name^="locations["]');
+      const locations = [];
+      const locationIds = new Set();
+      
+      locationInputs.forEach(input => {
+          const match = input.name.match(/locations\[(\d+)\]\[(\w+)\]/);
+          if (match) {
+              const id = parseInt(match[1]);
+              const field = match[2];
+              const value = input.value;
+              
+              if (!locationIds.has(id)) {
+                  locations.push({ id, [field]: value });
+                  locationIds.add(id);
+              } else {
+                  const existing = locations.find(loc => loc.id === id);
+                  if (existing) {
+                      existing[field] = value;
+                  }
+              }
+          }
+      });
+
+      formData.locations = locations;
+
+      localStorage.setItem('formData', JSON.stringify(formData));
+      localStorage.setItem('currentStep', currentStep);
+      localStorage.setItem('substepIndexes', JSON.stringify(substepIndexes));
+    }
+
+    function loadFormState() {
+      const savedFormData = JSON.parse(localStorage.getItem('formData'));
+      const savedStep = localStorage.getItem('currentStep');
+      const savedSubsteps = JSON.parse(localStorage.getItem('substepIndexes'));
+
+      if (savedFormData) {
+          Object.keys(savedFormData).forEach((key) => {
+              if (key === 'locations') {
+                  // Locations are handled separately
+                  return;
+              }
+              
+              const el = document.querySelector(`[name="${key}"], [id="${key}"]`);
+
+              if (el) {
+                  if (el.type === 'radio') {
+                      document.querySelectorAll(`input[name="${key}"]`).forEach((radio) => {
+                          if (radio.value === savedFormData[key]) {
+                              radio.checked = true;
+                          }
+                      });
+                  } else if (el.type === 'file') {
+                      // Skip file inputs
+                      return;
+                  } else {
+                      el.value = savedFormData[key];
+                  }
+              }
+          });
+
+          // Restore the saved steps and substeps if available
+          if (savedStep !== null && savedSubsteps !== null) {
+              currentStep = parseInt(savedStep);
+              substepIndexes = savedSubsteps;
+          }
+      }
+    }
+
+    function restoreAllProgressBars() {
+      steps.forEach((stepEl, stepIndex) => {
+        const substeps = getSubstepsForStep(stepIndex);
+        const subIndex = substepIndexes[stepIndex] || 0;
+        const progressBar = document.getElementById(`progress-step-${stepIndex}`);
+        if (progressBar && substeps.length > 0) {
+          const percent = ((subIndex + 1) / substeps.length) * 100;
+          progressBar.style.width = `${percent}%`;
+
+          if (percent === 100) {
+            progressBar.classList.remove("bg-dark-blue-purple");
+            progressBar.classList.add("bg-green-500");
+          } else {
+            progressBar.classList.remove("bg-green-500");
+            progressBar.classList.add("bg-dark-blue-purple");
+          }
+        }
+      });
+    }
+
+    function gatherData() {
+      const firstName = document.querySelector('input[name="first_name"]')?.value || 'N/A';
+      const lastName = document.querySelector('input[name="last_name"]')?.value || 'N/A';
+      const position = document.querySelector('input[name="position"]')?.value || 'N/A';
+      const linkedin = document.querySelector('input[name="linkedin_profile"]')?.value || 'N/A';
+      
+      const companyName = document.querySelector('input[name="company_name"]')?.value || 'N/A';
+      const employees = document.querySelector('select[name="employees"]')?.value || 'N/A';
+      const website = document.querySelector('input[name="website"]')?.value || 'N/A';
+      const industry = document.querySelector('select[name="industry"]')?.value || 'N/A';
+      const foundationYear = document.querySelector('input[name="foundation_year"]')?.value || 'N/A';
+      
+      const hqStreet = document.querySelector('input[name="hq_street"]')?.value || 'N/A';
+      const hqCity = document.querySelector('select[name="hq_city"]')?.value || 'N/A';
+      const hqState = document.querySelector('select[name="hq_state"]')?.value || 'N/A';
+      const hqCountry = document.querySelector('select[name="hq_country"]')?.value || 'N/A';
+      
+      const tagline = document.querySelector('input[name="tagline"]')?.value || 'N/A';
+      const description = document.querySelector('textarea[name="description"]')?.value || 'N/A';
+      
+      const taxId = document.querySelector('input[name="tax_id"]')?.value || 'N/A';
+      const policiesLink = document.querySelector('input[name="policies_link"]')?.value || 'N/A';
+      const companyLinkedin = document.querySelector('input[name="company_linkedin"]')?.value || 'N/A';
+      
+      // Get all locations
+      const locationInputs = document.querySelectorAll('[name^="locations["]');
+      const locations = [];
+      const locationIds = new Set();
+      
+      locationInputs.forEach(input => {
+          const match = input.name.match(/locations\[(\d+)\]\[(\w+)\]/);
+          if (match) {
+              const id = parseInt(match[1]);
+              const field = match[2];
+              const value = input.value;
+              
+              if (!locationIds.has(id)) {
+                  locations.push({ id, [field]: value });
+                  locationIds.add(id);
+              } else {
+                  const existing = locations.find(loc => loc.id === id);
+                  if (existing) {
+                      existing[field] = value;
+                  }
+              }
+          }
+      });
+
+      return {
+          firstName, lastName, position, linkedin,
+          companyName, employees, website, industry, foundationYear,
+          hqStreet, hqCity, hqState, hqCountry,
+          tagline, description,
+          taxId, policiesLink, companyLinkedin,
+          locations
+      };
+    }
+
+    function displayConfirmationData(data) {
+        let html = `
+            <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">👤 Personal Information</h4>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li><strong>Full Name:</strong> ${data.firstName} ${data.lastName}</li>
+                    <li><strong>Position:</strong> ${data.position}</li>
+                    <li><strong>LinkedIn:</strong> ${data.linkedin}</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">🏢 Company Information</h4>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li><strong>Company Name:</strong> ${data.companyName}</li>
+                    <li><strong>Employees:</strong> ${data.employees}</li>
+                    <li><strong>Website:</strong> ${data.website}</li>
+                    <li><strong>Industry:</strong> ${data.industry}</li>
+                    <li><strong>Founded:</strong> ${data.foundationYear}</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">📍 Headquarters</h4>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li><strong>Address:</strong> ${data.hqStreet}</li>
+                    <li><strong>City:</strong> ${data.hqCity}</li>
+                    <li><strong>State:</strong> ${data.hqState}</li>
+                    <li><strong>Country:</strong> ${data.hqCountry}</li>
+                </ul>
+            </div>`;
+
+        if (data.locations && data.locations.length > 0) {
+            html += `
+            <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">📌 Other Locations</h4>
+                <ul class="list-disc list-inside text-gray-700">`;
+            
+            // Group locations by their ID
+            const groupedLocations = {};
+            data.locations.forEach(loc => {
+                if (!groupedLocations[loc.id]) {
+                    groupedLocations[loc.id] = loc;
+                } else {
+                    Object.assign(groupedLocations[loc.id], loc);
+                }
+            });
+
+            // Display each complete location
+            Object.values(groupedLocations).forEach(loc => {
+                html += `
+                    <li>
+                        <strong>${loc.street || 'N/A'}, ${loc.city || 'N/A'}, ${loc.state || 'N/A'}, ${loc.country || 'N/A'}</strong>
+                    </li>`;
+            });
+
+            html += `
+                </ul>
+            </div>`;
+        }
+
+        html += `
+            <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">🏷️ Branding</h4>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li><strong>Tagline:</strong> ${data.tagline}</li>
+                    <li><strong>Description:</strong> ${data.description}</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-2">⚖️ Legal Information</h4>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li><strong>Tax ID:</strong> ${data.taxId}</li>
+                    <li><strong>Policies Link:</strong> ${data.policiesLink}</li>
+                    <li><strong>Company LinkedIn:</strong> ${data.companyLinkedin}</li>
+                </ul>
+            </div>
+        `;
+
+        document.getElementById('confirmationData').innerHTML = html;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (!validateCurrentSubstep()) {
+        window.alert("Please fill in all required fields.");
+        return;
+      }
+
+      if (substepIndexes[currentStep] < getSubstepsForStep(currentStep).length - 1) {
+        substepIndexes[currentStep]++;
+        updateSubstepDisplay();
+      } else if (currentStep < steps.length - 1) {
+        currentStep++;
+        updateStepDisplay();
+        updateSubstepDisplay();
+        
+        // If we're moving to the confirmation step, update the display
+        if (currentStep === steps.length - 1) {
+          displayConfirmationData(gatherData());
+        }
+      }
+
+      saveFormState();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (substepIndexes[currentStep] > 0) {
+        substepIndexes[currentStep]--;
+        updateSubstepDisplay();
+      } else if (currentStep > 0) {
+        currentStep--;
+        updateStepDisplay();
+        updateSubstepDisplay();
+      }
+
+      saveFormState();
+    });
+
+    submitBtn.addEventListener('click', function() {
+      document.getElementById('multi-step-form').submit();
+    });
+
+    // Update confirmation data when form inputs change
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      el.addEventListener('input', () => {
+        if (currentStep === steps.length - 1) {
+          displayConfirmationData(gatherData());
+        }
+        saveFormState();
+      });
+    });
+
+    // Initialize on page load
+    (async () => {
+      await loadFormState();
+      updateStepDisplay();
+      updateSubstepDisplay();
+      restoreAllProgressBars();
+      
+      // If we're on the confirmation step, display data
+      if (currentStep === steps.length - 1) {
+        displayConfirmationData(gatherData());
+      }
+    })();
+  </script>
+</body>
+</html>

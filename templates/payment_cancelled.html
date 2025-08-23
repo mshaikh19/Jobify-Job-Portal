@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="h-full bg-white">
+    <!-- Header Section -->
+    <header class="z-100 w-full h-24 fixed bg-white">
+        <div class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0 w-full">
+            <a href="/" class="relative flex items-center h-full font-black leading-none">
+                <span class="text-4xl text-gray-800">Jobify</span>
+            </a>
+        </div>
+    </header>
+    <!-- End Header Section -->
+
+    <main class="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
+        <div class="text-center">
+            <p class="text-base font-semibold text-indigo-600">Payment Cancelled</p>
+            <h1 class="mt-4 text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">Your payment has been cancelled.</h1>
+            <p class="mt-6 text-lg font-medium text-gray-500 sm:text-xl">Unfortunately, your payment process was cancelled. If this was a mistake, please try again.</p>
+            <div class="mt-10 flex items-center justify-center gap-x-6">
+                <a href="{% url 'company_admin_dashboard' company_name=company.name company_person_name=company_person_full_name %}"
+                   class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Back to Dashboard
+                </a>
+                <a href="#"
+                   class="text-sm font-semibold text-gray-900">Contact support <span aria-hidden="true">&rarr;</span></a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

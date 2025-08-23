@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-[#F5F7FA] text-gray-800 font-sans">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jobify Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  
+</head>
+<body class="grid grid-cols-1 lg:grid-cols-[16rem_1fr] h-screen font-sans bg-gray-100">
+
+  <!-- Overlay for mobile -->
+  <div id="overlay" class="fixed inset-0 bg-[rgba(0, 0, 0, 0.26)] bg-opacity-50 hidden z-30 lg:hidden"></div>
+
+  <aside class="hidden lg:flex flex-col justify-between bg-white shadow-lg h-screen w-64 fixed z-40" id="sidebar">
+    <!-- Top & Navigation -->
+    <div>
+      <div class="flex items-center justify-between p-6">
+        <h1 class="text-2xl font-bold text-[#6C63FF]">Jobify</h1>
+        <button id="closeBtn" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none">✕</button>
+      </div>
+  
+      <nav id="sidebarNav" class="space-y-4 px-4">
+        <a href="{% url 'admin_dashboard' %}" class="flex items-center px-4 py-3 rounded-xl bg-[#EEF0FF] text-[#6C63FF] font-medium">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M3 12l2-2 7-7 7 7 2 2v10a1 1 0 01-1 1H4a1 1 0 01-1-1V12z"/>
+          </svg>
+          Dashboard
+        </a>
+  
+        <a href="{% url 'manage_users' %}" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-600">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+          Manage Users
+        </a>
+  
+        <a href="#" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-600">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M12 8v4l3 3"/>
+          </svg>
+          Settings
+        </a>
+  
+        <a href="{% url 'logout' %}" class="flex items-center px-4 py-3 rounded-xl hover:bg-gray-100 text-red-500 font-medium">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M17 16l4-4m0 0l-4-4m4 4H3"/>
+          </svg>
+          Logout
+        </a>
+      </nav>
+    </div>
+  
+    <!-- Footer fixed at bottom -->
+    <div class="px-6 py-4 text-xs text-gray-500 border-t border-gray-200">
+      <p class="mb-1">Admin: <a href="mailto:{{user.email}}" class="text-blue-600 hover:underline">{{user.email}}</a></p>
+      <p>© 2025 Jobify Admin Panel</p>
+    </div>
+  </aside>
+
+
+  <!-- Main Content Area -->
+  <div class="col-span-1 lg:col-start-2 flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="h-20 bg-white shadow px-4 flex items-center justify-between">
+      <!-- Menu button for small/medium devices -->
+      <button id="menuBtn" class="block lg:hidden text-gray-600 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+      <h2 class="text-xl font-semibold text-gray-700">Dashboard</h2>
+      <div class="flex items-center space-x-4">
+        <img class="w-14 h-14 rounded-full object-cover ring-2 ring-primary profile-picture mr-8" 
+                 data-profile-picture="{{ user.profile_picture }}" 
+                 data-email="{{ user.email }}" 
+                 data-member-id="{{ user.id }}" 
+                 alt="Profile Picture" />
+      </div>
+    </header>
+
+
+    <!-- Scrollable Content Area -->
+    <main class="flex-1 overflow-y-auto p-8 space-y-8 bg-[#F5F7FA]">
+
+      <!-- Summary Cards -->
+      <div class="grid grid-cols-1  lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition">
+          <p class="text-sm text-gray-400 mb-1">Total Jobs</p>
+          <h3 class="text-3xl font-bold text-[#6C63FF]">{{ total_jobs }}</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition">
+          <p class="text-sm text-gray-400 mb-1">Applications</p>
+          <h3 class="text-3xl font-bold text-[#00B894]">{{ total_applications }}</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition">
+          <p class="text-sm text-gray-400 mb-1">New Users</p>
+          <h3 class="text-3xl font-bold text-[#E17055]">{{ new_users }}</h3>
+          <p class="text-xs text-gray-400 mt-1">Seekers: {{ new_seekers }} | Employers: {{ new_employers }}</p>
+        </div>
+      </div>
+
+      <!-- Graphs and Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Active Users Trend Over Time (Last 30 Days)</h4>
+          {{ user_activity_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">New Users Trend Over Time (Last 30 Days)</h4>
+          {{ user_joined_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Verification Status of Registered Users</h4>
+          {{ user_phone_verification_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Applications by Work Location</h4>
+          {{ work_location_chart|safe }}
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Views vs Applications</h4>
+          {{ job_views_vs_apps_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Top Categories</h4>
+          {{ category_stats_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Salary Distribution</h4>
+          {{ salary_distribution_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Posted Jobs by Languages</h4>
+          {{ job_language_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Job Seeker Accounts by Country</h4>
+          {{ job_seeker_address_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Industry Breakdown of Registered Companies</h4>
+          {{ company_industry_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Company Registrations Over the Years</h4>
+          {{ company_founded_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Company Size Demographics</h4>
+          {{ company_size_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Global Distribution of Company Headquarters</h4>
+          {{ company_headquarters_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl">
+          <h4 class="text-lg font-semibold mb-4">Total Payment Received by Each Company</h4>
+          {{ payment_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl lg:col-span-2 w-full col-span-1">
+          <h4 class="text-lg font-semibold mb-4">Breakdown of Academic Qualifications in Jobify</h4>
+          {{ job_seeker_education_level_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl lg:col-span-2 w-full col-span-1">
+          <h4 class="text-lg font-semibold mb-4">Job Seekers' Fields of Study Breakdown</h4>
+          {{ job_seeker_field_of_study_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl lg:col-span-2 w-full col-span-1">
+          <h4 class="text-lg font-semibold mb-4">Jobs Posted over Time</h4>
+          {{ jobs_over_time_graph|safe }}
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl lg:col-span-2 w-full col-span-1">
+          <h4 class="text-lg font-semibold mb-4">Salary Distribution</h4>
+          {{ applications_time_graph|safe }}
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    sidebar.classList.add('hidden');
+    overlay.classList.add('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    sidebar.classList.add('hidden');
+    overlay.classList.add('hidden');
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      console.log("Script Activated");
+
+      // Get all profile picture elements
+      const profilePictureElements = document.querySelectorAll('.profile-picture');
+
+      profilePictureElements.forEach(function (profileImageElement) {
+          const memberId = profileImageElement.getAttribute('data-member-id');  // Get the unique member ID
+          const profilePictureUrl = profileImageElement.getAttribute('data-profile-picture');  // Custom data attribute for the URL
+          const userEmail = profileImageElement.getAttribute('data-email');  // Custom data attribute for email
+
+          console.log(`Profile Picture for Member ${memberId}: `, profilePictureUrl);
+
+          // Check if the profile picture URL is available
+          if (profilePictureUrl) {
+              // Check if it's an external HTTP or HTTPS URL
+              if (profilePictureUrl.startsWith("http://") || profilePictureUrl.startsWith("https://")) {
+                  console.log("Profile Picture is URL");
+                  profileImageElement.src = profilePictureUrl;  // External URL
+                  console.log("The Image Source : ", profileImageElement.src);
+              } else {
+                  // Handle local media URL
+                  const mediaUrl = "/media/" + profilePictureUrl;
+                  console.log("Profile Picture is Local. Media URL: ", mediaUrl);
+                  profileImageElement.src = mediaUrl;
+                  console.log("The Image Source : ", profileImageElement.src);
+              }
+          } else {
+              // Fallback to a generated avatar if there's no profile picture
+              console.log("No profile picture. Using generated avatar for email: ", userEmail);
+              const avatarUrl = `https://ui-avatars.com/api/?email=${userEmail}&size=100&background=random&color=fff`;  // Generated avatar
+              profileImageElement.src = avatarUrl;
+              console.log("The Image Source : ", profileImageElement.src);
+          }
+      });
+  });
+
+</script>
+
+</body>
+</html>

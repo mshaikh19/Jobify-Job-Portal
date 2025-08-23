@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goodbye</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-[#eaf1fb] flex items-center justify-center min-h-screen font-sans px-4">
+
+  <div class="glass flex flex-col md:flex-row items-center rounded-3xl shadow-2xl max-w-7xl w-full h-auto md:h-[80vh] overflow-hidden">
+    
+    <!-- Left Side: Illustration (Even Larger image) -->
+    <div class="md:w-1/2 w-full bg-white p-8 flex justify-center items-center">
+      <img src="{% static 'assests/images/goodbye_illustration.png' %}" alt="Goodbye Illustration"
+           class="w-full h-auto object-cover drop-shadow-lg" />
+    </div>
+
+    <!-- Right Side: Text Content -->
+    <div class="md:w-1/2 w-full p-10 md:p-14 text-center md:text-left">
+      <h1 class="text-5xl md:text-6xl font-bold text-dark-blue mb-6">Goodbye!</h1>
+      <p class="text-dark-blue text-lg md:text-xl lg:text-2xl mb-8 leading-relaxed">
+        Your account has been successfully deleted.<br />
+        Thank you for being with us. We hope to see you again!
+      </p>
+      <a href="{% url 'index' %}"
+         class="inline-block bg-dark-blue text-white px-6 py-3 rounded-full font-medium hover:bg-gray-900 transition">
+        Back to Homepage
+      </a>
+    </div>
+
+  </div>
+</body>
+</html>

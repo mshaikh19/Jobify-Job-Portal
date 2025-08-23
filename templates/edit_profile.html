@@ -1,0 +1,660 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jobify | Edit Profile</title>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet"> <!-- Link your Tailwind build -->
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Header Section -->
+  <header class="fixed z-100 w-full h-24 bg-white">
+    <div class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0 w-full">
+
+        <a href="./home.html" class="relative flex items-center h-full font-black leading-none">        
+            <span class="text-4xl text-gray-800">Jobify</span>
+        </a>
+
+        <nav id="nav"
+            class="absolute top-0 left-0 z-50 flex flex-col items-center justify-between hidden w-full h-64 pt-5 mt-24 text-sm text-gray-800 bg-white border-t border-gray-200 md:w-auto md:flex-row md:h-24 lg:text-base md:bg-transparent md:mt-0 md:border-none md:py-0 md:flex md:relative">
+            <a href="#"
+                class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Home</a>
+            <a href="#features"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Find a Job</a>
+            <a href="company_reviews.html"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Company Reviews</a>
+            
+            <!-- <a href="#"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Profile</a>
+            <a href="#"
+                class="font-bold duration-100 transition-color hover:text-light-blue">Jobs</a> -->
+            <div class="flex flex-col w-full font-medium border-t border-gray-200 md:hidden">
+                <a href="./profile.html" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Profile</a>
+                <a href="./index.html" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-dark-gray fold-bold">Logout</a>
+            </div>
+        </nav>
+
+        <div
+            class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
+            <a href="./profile.html" class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Profile</a>
+            <a href="./index.html" class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white bg-dark-blue rounded shadow-md fold-bold   sm:w-full lg:shadow-none hover:shadow-xl">Logout</a>
+            
+        </div>
+
+        <div id="nav-mobile-btn"
+            class="absolute top-0 right-0 z-50 block w-6 mt-8 mr-10 cursor-pointer select-none md:hidden sm:mt-10">
+            <img src="{% static 'assests/images/menu.png' %}" class="">
+        </div>
+
+    </div>
+</header>
+<!-- End Header Section-->
+
+  <!-- Main Content -->
+  <main class="pt-40 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-md p-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h1>
+
+      <form class="space-y-10" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Personal Information -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4">Personal Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">First Name</label>
+                {{ user_form.first_name }}
+                {% if user_form.first_name.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in user_form.first_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Last Name</label>
+                {{ user_form.last_name }}
+                {% if user_form.last_name.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in user_form.last_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
+                {{ user_form.email }}
+                {% if user_form.email.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in user_form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Gender</label>
+                {{ profile_form.gender }}
+                {% if profile_form.gender.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in profile_form.gender.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Age</label>
+                {{ profile_form.age }}
+                {% if profile_form.age.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in profile_form.age.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Personal Description</h2>
+        <div class="grid grid-cols-1  gap-6">
+            <div>
+                {{ profile_form.about }}
+                {% if profile_form.about.errors %}
+                <ul class="text-red-600 list-none">
+                    {% for error in profile_form.about.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Residence</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Street Address</label>
+                {{ address_form.street_address }}
+                {% if address_form.street_address.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in address_form.street_address.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">City</label>
+                {{ address_form.city }}
+                {% if address_form.city.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in address_form.city.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">State</label>
+                {{ address_form.state }}
+                {% if address_form.state.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in address_form.state.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Country</label>
+                {{ address_form.country }}
+                {% if address_form.country.errors %}
+                    <ul class="text-red-600 list-none">
+                        {% for error in address_form.country.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="grid grid-cols-1 gap-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Academic Background</h2>
+    
+        {{ education_formset.management_form }}
+    
+        {% for form in education_formset %}
+            <div class="education-form relative border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ form.level.label }}</label>
+                        {{ form.level }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ form.field.label }}</label>
+                        {{ form.field }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ form.currently_enrolled.label }}</label>
+                        {{ form.currently_enrolled }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ form.start_year.label }}</label>
+                        {{ form.start_year }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ form.end_year.label }}</label>
+                        {{ form.end_year }}
+                    </div>
+                </div>
+    
+                {% if form.school_address_form %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="md:col-span-2 text-sm font-semibold text-gray-700">School Address</div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">School Name</label>
+                            {{ form.school_address_form.school_name }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">City</label>
+                            {{ form.school_address_form.school_city }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">State</label>
+                            {{ form.school_address_form.school_state }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Country</label>
+                            {{ form.school_address_form.school_country }}
+                        </div>
+                    </div>
+                {% endif %}
+    
+                {% if form.DELETE %}
+                    <button type="button" class="absolute top-2 right-2 text-sm text-red-600 hover:underline remove-education-btn">
+                        ✕ Remove
+                    </button>
+                    {{ form.DELETE }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    
+        <button type="button" id="add-education-btn" class="mt-3 px-4 py-2 bg-dark-blue text-white rounded-lg hover:bg-dark-dark-blue transition">
+            + Add Education
+        </button>
+    
+        <div id="education-container" class="space-y-4"></div>
+    
+        <script type="text/template" id="education-empty-form-template">
+            <div class="education-form relative border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <input type="checkbox" name="education-__prefix__-DELETE" id="id_education-__prefix__-DELETE" class="hidden delete-checkbox" />
+                <button type="button" class="absolute top-2 right-2 text-sm text-red-600 hover:underline remove-education-btn">✕ Remove</button>
+                <input type="hidden" name="education-__prefix__-id" id="id_education-__prefix__-id" />
+    
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Level</label>
+                        <select name="education-__prefix__-level" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                            {% for val, label in education_formset.empty_form.level.field.choices %}
+                                <option value="{{ val }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Field of Study</label>
+                        <select name="education-__prefix__-field" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                            {% for val, label in education_formset.empty_form.field.field.choices %}
+                                <option value="{{ val }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Currently Enrolled</label>
+                        <select name="education-__prefix__-currently_enrolled" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                            {% for val, label in education_formset.empty_form.currently_enrolled.field.choices %}
+                                <option value="{{ val }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Start Year</label>
+                        <select name="education-__prefix__-start_year" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                            {% for val, label in education_formset.empty_form.start_year.field.choices %}
+                                <option value="{{ val }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">End Year</label>
+                        <select name="education-__prefix__-end_year" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                            {% for val, label in education_formset.empty_form.end_year.field.choices %}
+                                <option value="{{ val }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="md:col-span-2 text-sm font-semibold text-gray-700">School Address</div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">School Name</label>
+                        <input type="text" name="education-__prefix__-school_address-school_name" class="w-full px-4 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">City</label>
+                        <input type="text" name="education-__prefix__-school_address-school_city" class="w-full px-4 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">State</label>
+                        <input type="text" name="education-__prefix__-school_address-school_state" class="w-full px-4 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Country</label>
+                        <input type="text" name="education-__prefix__-school_address-school_country" class="w-full px-4 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                </div>
+            </div>
+        </script>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const addBtn = document.getElementById('add-education-btn');
+                const container = document.getElementById('education-container');
+                const template = document.getElementById('education-empty-form-template').innerHTML;
+                const totalFormsInput = document.getElementById('id_education-TOTAL_FORMS');
+                if (totalFormsInput) {
+                    let totalForms = parseInt(totalFormsInput.value);
+
+                    addBtn.addEventListener('click', function() {
+                        const newFormHtml = template.replace(/__prefix__/g, totalForms);
+                        const wrapper = document.createElement('div');
+                        wrapper.innerHTML = newFormHtml;
+                        container.appendChild(wrapper);
+                        totalForms++;
+                        totalFormsInput.value = totalForms;
+                    });
+        
+                    document.addEventListener('click', function(e) {
+                        if (e.target && e.target.classList.contains('remove-education-btn')) {
+                            const formWrapper = e.target.closest('.education-form');
+                            const deleteCheckbox = formWrapper.querySelector('.delete-checkbox');
+        
+                            if (deleteCheckbox) {
+                                deleteCheckbox.checked = true;
+                                formWrapper.style.display = 'none';
+                            } else {
+                                formWrapper.remove();
+                                totalForms--;
+                                totalFormsInput.value = totalForms;
+                            }
+                        }
+                        
+                    });
+                }
+                else {
+                    console.error('Management form input "id_education-TOTAL_FORMS" not found!');
+                }
+            });
+        </script>
+    </div>
+    
+    
+    <div class="grid grid-cols-1 gap-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Certifications</h2>
+    
+        {{ certification_formset.management_form }}
+    
+        {% for certification in certification_formset %}
+            <div class="certification-form relative border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ certification.name.label }}</label>
+                        {{ certification.name }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">{{ certification.certificate_file.label }}</label>
+                        {{ certification.certificate_file }}
+                    </div>
+                </div>
+    
+                {% if certification.DELETE %}
+                    <button type="button" class="absolute top-2 right-2 text-sm text-red-600 hover:underline remove-cert-btn">
+                        ✕ Remove
+                    </button>
+                    {{ certification.DELETE }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    
+        <button type="button" id="add-cert-btn"
+                class="mt-3 px-4 py-2 bg-dark-blue text-white rounded-lg hover:bg-dark-dark-blue transition">
+            + Add Certification
+        </button>
+    
+        <div id="cert-container" class="space-y-4"></div>
+    
+        <script type="text/template" id="cert-empty-form-template">
+            <div class="certification-form relative border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <input type="checkbox" name="certification-__prefix__-DELETE" id="id_certification-__prefix__-DELETE"
+                       class="hidden delete-checkbox" />
+                <button type="button" class="absolute top-2 right-2 text-sm text-red-600 hover:underline remove-cert-btn">
+                    ✕ Remove
+                </button>
+                <input type="hidden" name="certification-__prefix__-id" id="id_certification-__prefix__-id">
+    
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="id_certification-__prefix__-name" class="block text-sm font-medium text-gray-600 mb-1">Title</label>
+                        <input type="text" name="certification-__prefix__-name" id="id_certification-__prefix__-name"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue">
+                    </div>
+                    <div>
+                        <label for="id_certification-__prefix__-certificate_file" class="block text-sm font-medium text-gray-600 mb-1">Certificate</label>
+                        <input type="file" name="certification-__prefix__-certificate_file" id="id_certification-__prefix__-certificate_file"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue">
+                    </div>
+                </div>
+            </div>
+        </script>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const addBtn = document.getElementById('add-cert-btn');
+                const container = document.getElementById('cert-container');
+                const template = document.getElementById('cert-empty-form-template').innerHTML;
+                const totalFormsInput = document.getElementById('id_certification-TOTAL_FORMS');
+                if (totalFormsInput) {
+                    let totalForms = parseInt(totalFormsInput.value);
+                    
+                    addBtn.addEventListener('click', function() {
+                        const newFormHtml = template.replace(/__prefix__/g, totalForms);
+                        const wrapper = document.createElement('div');
+                        wrapper.innerHTML = newFormHtml;
+                        container.appendChild(wrapper);
+                        totalForms++;
+                        totalFormsInput.value = totalForms;
+                    });
+                    
+                    // Handle remove buttons
+                    document.addEventListener('click', function(e) {
+                        if (e.target && e.target.classList.contains('remove-cert-btn')) {
+                            const formWrapper = e.target.closest('.certification-form');
+                            const deleteCheckbox = formWrapper.querySelector('.delete-checkbox');
+                            
+                            if (deleteCheckbox) {
+                                // For existing forms
+                                deleteCheckbox.checked = true;
+                                formWrapper.style.display = 'none';
+                            } else {
+                                // For new forms
+                                formWrapper.remove();
+                                totalForms--;
+                                totalFormsInput.value = totalForms;
+                            }
+                        }
+                    });
+                }
+                else{
+                    console.error('Management form input "id_education-TOTAL_FORMS" not found!');
+                }
+            });
+        </script>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Work Experience</h2>
+        {{ profile_form.work_experience.label_tag }} {{ profile_form.work_experience }}
+        {{ work_experience_formset.management_form }}
+    
+        {% for form in work_experience_formset %}
+            <div class="experience-form relative border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        {{ form.position.label_tag }} {{ form.position }}
+                    </div>
+                    <div>
+                        {{ form.company.label_tag }} {{ form.company }}
+                    </div>
+                    <div>
+                        {{ form.start_date.label_tag }} {{ form.start_date }}
+                    </div>
+                    <div>
+                        {{ form.end_date.label_tag }} {{ form.end_date }}
+                    </div>
+                    <div class="md:col-span-2">
+                        {{ form.description.label_tag }} {{ form.description }}
+                    </div>
+                </div>
+    
+                {% if form.DELETE %}
+                    <button type="button"
+                            class="absolute top-2 right-2 text-sm text-red-600 hover:underline remove-experience-btn">
+                        ✕ Remove
+                    </button>
+                    {{ form.DELETE }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    
+        <button type="button" id="add-experience-btn"
+                class="mt-3 px-4 py-2 bg-dark-blue text-white rounded-lg hover:bg-dark-dark-blue transition">
+            + Add Experience
+        </button>
+    
+        <div id="experience-container" class="space-y-4"></div>
+    
+        <!-- Hidden template for JS-based dynamic addition -->
+        <script type="text/template" id="experience-empty-form-template">
+            <div class="experience-form relative border border-gray-200 p-4 rounded-lg bg-white shadow-sm">
+                <input type="checkbox" name="experience-__prefix__-DELETE" id="id_experience-__prefix__-DELETE"
+                       class="hidden delete-checkbox" />
+                <button type="button"
+                        class="absolute top-2 right-2 text-sm text-red-600 hover:underline remove-experience-btn">✕ Remove</button>
+                <input type="hidden" name="experience-__prefix__-id" id="id_experience-__prefix__-id" value="">
+    
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="id_experience-__prefix__-position" class="block text-sm font-medium mb-1">Job Title</label>
+                        <input type="text" name="experience-__prefix__-position" id="id_experience-__prefix__-position"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue" />
+                    </div>
+                    <div>
+                        <label for="id_experience-__prefix__-company" class="block text-sm font-medium mb-1">Company</label>
+                        <input type="text" name="experience-__prefix__-company" id="id_experience-__prefix__-company"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue" />
+                    </div>
+                    <div>
+                        <label for="id_experience-__prefix__-start_date" class="block text-sm font-medium mb-1">Start Date</label>
+                        <input type="date" name="experience-__prefix__-start_date" id="id_experience-__prefix__-start_date"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue" />
+                    </div>
+                    <div>
+                        <label for="id_experience-__prefix__-end_date" class="block text-sm font-medium mb-1">End Date</label>
+                        <input type="date" name="experience-__prefix__-end_date" id="id_experience-__prefix__-end_date"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="id_experience-__prefix__-description" class="block text-sm font-medium mb-1">Job Description</label>
+                        <textarea name="experience-__prefix__-description" id="id_experience-__prefix__-description"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-dark-blue"></textarea>
+                    </div>
+                </div>
+            </div>
+        </script>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const addBtn = document.getElementById('add-experience-btn');
+                const container = document.getElementById('experience-container');
+                const template = document.getElementById('experience-empty-form-template').innerHTML;
+                const totalFormsInput = document.getElementById('id_experience-TOTAL_FORMS');
+                if (totalFormsInput) {
+                    let totalForms = parseInt(totalFormsInput.value);
+        
+                    addBtn.addEventListener('click', function () {
+                        const newFormHtml = template.replace(/__prefix__/g, totalForms);
+                        const wrapper = document.createElement('div');
+                        wrapper.innerHTML = newFormHtml;
+                        container.appendChild(wrapper);
+                        totalForms++;
+                        totalFormsInput.value = totalForms;
+                    });
+        
+                    // Handle remove buttons
+                    document.addEventListener('click', function (e) {
+                        if (e.target && e.target.classList.contains('remove-experience-btn')) {
+                            const formWrapper = e.target.closest('.experience-form');
+                            const deleteCheckbox = formWrapper.querySelector('.delete-checkbox');
+                            
+                            if (deleteCheckbox) {
+                                // For existing forms (from server)
+                                deleteCheckbox.checked = true;
+                                formWrapper.style.display = 'none';
+                            } else {
+                                // For newly added forms (not yet saved)
+                                formWrapper.remove();
+                                totalForms--;
+                                totalFormsInput.value = totalForms;
+                            }
+                        }
+                    });
+                }
+                else{
+                    console.error('Management form input "id_education-TOTAL_FORMS" not found!');
+                }
+            });
+        </script>
+    </div>
+    
+        <!-- Job Preferences -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4">Job Preferences</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Preferred Location</label>
+                {{ profile_form.location_preference }}
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Minimum Salary</label>
+              {{ profile_form.expected_salary }}
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Job Type</label>
+              {{ profile_form.job_type }}
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Relocation</label>
+              {{ profile_form.relocation }}
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 mb-1">Skills</label>
+              {{ profile_form.skills }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Resume Upload -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4">Resume</h2>
+          <label class="block text-sm font-medium text-gray-600 mb-2">Upload Resume</label>
+          <input type="file"
+                 class="w-full file:px-4 file:py-2 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-700 file:font-semibold hover:file:bg-blue-200 cursor-pointer text-sm text-gray-600">
+          <p class="text-xs text-gray-500 mt-1">Verify Email First to upload resume</p>
+        </div>
+
+        <!-- Resume Visibility -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-4">Resume Visibility</h2>
+          {{ profile_form.profile_visibility }}
+        </div>
+
+        <!-- Save Button -->
+        <div class="pt-4 text-right">
+          
+            <input type="submit" class="px-6 py-3 bg-dark-blue text-white font-semibold rounded-md hover:bg-blue-900 transition" value ="Save Profile" />
+
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 border-t border-gray-200 pt-6 mt-10 pb-6">
+    © 2025 Jobify. All rights reserved.
+  </footer>
+
+</body>
+</html>

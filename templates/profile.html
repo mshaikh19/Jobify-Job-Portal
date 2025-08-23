@@ -1,0 +1,328 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jobify | Profile </title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+</head>
+<body class="font-sans antialiased overflow-hidden">
+
+<!-- Header Section -->
+<header class="fixed z-100 w-full h-24 bg-white">
+  <div
+      class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0 w-full">
+
+      <a href="{% url 'home' %}" class="relative flex items-center h-full font-black leading-none">        
+          <span class="text-4xl text-gray-800">Jobify</span>
+      </a>
+
+      <nav id="nav"
+          class="absolute top-0 left-0 z-50 flex flex-col items-center justify-between hidden w-full h-64 pt-5 mt-24 text-sm text-gray-800 bg-white border-t border-gray-200 md:w-auto md:flex-row md:h-24 lg:text-base md:bg-transparent md:mt-0 md:border-none md:py-0 md:flex md:relative">
+          <a href="{% url 'home' %}"
+              class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Home</a>
+          <a href="#features"
+              class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Find a Job</a>
+          <a href="#testimonials"
+              class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Company Reviews</a>
+          
+          <div class="flex flex-col w-full font-medium border-t border-gray-200 md:hidden">
+              <a href="{% url 'profile' %}" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Profile</a>
+              <a href="{% url 'settings' %}" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Settings</a>
+              <a href="{% url 'logout' %}"
+                  class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-dark-gray fold-bold">Logout</a>
+          </div>
+      </nav>
+
+      <div
+          class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
+          <a href="{% url 'profile' %}"
+              class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Profile</a>
+          <a href="{% url 'settings' %}"
+              class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Settings</a>
+          <a href="{% url 'logout' %}"
+              class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white bg-dark-blue rounded shadow-md fold-bold   sm:w-full lg:shadow-none hover:shadow-xl">Logout</a>
+          
+      </div>
+
+      <div id="nav-mobile-btn"
+          class="absolute top-0 right-0 z-50 block w-6 mt-8 mr-10 cursor-pointer select-none md:hidden sm:mt-10">
+          <img src="{% static 'assests/images/menu.png' %}" class="">
+      </div>
+
+  </div>
+</header>
+    <!-- End Header Section-->
+
+<!-- Main Container -->
+<main class="pt-32 pb-16 px-4 lg:px-8 max-w-7xl mx-auto">
+  <div class="lg:grid lg:grid-cols-3 gap-6 relative">
+
+    <!-- Fixed Sidebar -->
+    <aside class="lg:sticky lg:top-32 bg-gradient-to-br from-blue-50 to-white border border-gray-200 rounded-2xl p-8 h-max">
+      <div class="text-center">
+        {% if user.profile_picture %}
+            {% if is_external %}
+                <img class="w-24 h-24 rounded-full mx-auto object-cover shadow-sm ring-2 ring-dark-blue" 
+                    src="{{ user.profile_picture }}" 
+                    alt="Profile Image" />
+            {% else %}
+                <img class="w-24 h-24 rounded-full mx-auto object-cover shadow-sm ring-2 ring-dark-blue" 
+                    src="/media/{{ user.profile_picture }}" 
+                    alt="Profile Image" />
+            {% endif %}
+        {% else %}
+            <img class="w-24 h-24 rounded-full mx-auto object-cover shadow-sm ring-2 ring-dark-blue" 
+                src="https://ui-avatars.com/api/?name={{ user.email|urlencode }}&size=100&background=random&color=fff" 
+                alt="Profile Image" />
+        {% endif %}
+
+
+        <h2 class="text-xl font-semibold mt-4 text-gray-800">{{ user.first_name }} {{ user.last_name }}</h2>
+        <p class="text-sm text-gray-500">Frontend Developer</p>
+      </div>
+
+      <div class="mt-8 space-y-4 text-sm text-gray-600">
+        <a href="{% url 'applied-jobs' %}" class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">        
+          <div class="flex justify-between">
+            <span>Jobs Applied</span><span class="font-semibold text-gray-800"> {{ applied_jobs_count }} </span>
+          </div>
+        </a>
+        <a href="{% url 'saved-jobs' %}" class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">        
+          <div class="flex justify-between"><span>Saved Jobs</span><span class="font-semibold text-gray-800">{{ saved_jobs_count }}</span></div>
+        </a>
+        
+      </div>
+      <!-- Resume Download -->
+      <div class="flex items-center justify-center">
+        <a href="{% url 'download_resume' %}" class="flex items-center gap-2 text-sm font-medium text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 w-full">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M7 10l5 5 5-5M12 4v12" />
+          </svg>
+          Download Resume (PDF)
+        </a>
+      </div>
+      
+      <div class="flex items-center justify-center">
+        <a href="{% url 'edit_profile' %}" class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue w-full">        
+          <button class="mt-8 w-full bg-dark-blue text-white py-2 rounded-md font-medium shadow-md hover:bg-dark-blue transition">Edit Profile</button>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Scrollable Profile Content -->
+  <section class="col-span-2 mt-10 lg:mt-0 overflow-y-auto space-y-10 p-4 lg:p-0 max-h-[calc(100vh-20rem)] lg:pr-4" id="content">
+    <!-- About Section -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">About</h3>
+      <p class="text-sm text-gray-600 leading-relaxed">
+        {{ job_seeker.about }}
+      </p>
+    </div>
+
+    <!-- Contact Info Section -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Contact Information</h3>
+      <ul class="text-sm text-gray-600 space-y-1">
+        <li><strong class="text-gray-800">Email:</strong> {{ job_seeker.user.email }}</li>
+        <li><strong class="text-gray-800">Phone:</strong> {{ job_seeker.user.phone_number }}</li>
+        <li><strong class="text-gray-800">Address:</strong> {{ job_seeker.address.street_address }} , {{ job_seeker.address.city }} , {{ job_seeker.address.state }} , {{ job_seeker.address.country }} </li>
+      </ul>
+    </div>
+
+    <!-- Education Section -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Education</h3>
+      {% if job_seeker.education.exists %}
+        {% for edu in job_seeker.education.all %}
+          <div class="bg-gray-50 p-4 rounded-md shadow-sm border-l-4 border-dark-blue">
+            <h4 class="text-md font-medium text-gray-700">
+              <strong class="text-gray-800 text-lg">
+                {% if job_seeker.education.currently_enrolled == "True" %}
+                  <span class="inline-block px-2 py-1 text-xs rounded-full bg-green-800 text-green-100">
+                    Currently Enrolled
+                  </span>
+                {% endif %}
+                {{ job_seeker.education.level }}
+              </strong> – {{ job_seeker.education.field }}
+            </h4>
+            <p class="text-xs text-gray-500 mb-1">
+              {{ job_seeker.school_address.school_name }}, {{ job_seeker.school_address.school_city }},
+              {{ job_seeker.school_address.school_state }}, {{ job_seeker.school_address.school_country }} – 
+              {{ job_seeker.education.start_year }} - {{ job_seeker.education.end_year }}
+            </p>
+          </div>
+        {% endfor %}
+      
+      {% else %}
+      <div class="text-center text-sm text-gray-500 border border-gray-200 rounded-xl p-6 bg-gray-50">
+        No Educational Details added.
+      </div>
+      {% endif %}
+      
+    </div>
+    <!-- Experience Section -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Experience</h3>
+      <div class="space-y-6">
+        {% if job_seeker.experiences.exists %}
+          <div class="space-y-4">
+            {% for exp in job_seeker.experiences.all %}
+              <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition group">
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <h4 class="text-lg font-medium text-gray-800 group-hover:text-blue-600 transition">
+                      {{ exp.job_title }}
+                    </h4>
+                    <span class="text-xs text-gray-400">{{ exp.start_date|date:"M Y" }} – 
+                      {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                    </span>
+                  </div>
+                  <p class="text-sm text-gray-500">{{ exp.company_name }}</p>
+                  <p class="text-sm text-gray-600 leading-relaxed">
+                    {{ exp.description }}
+                  </p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center text-sm text-gray-500 border border-gray-200 rounded-xl p-6 bg-gray-50">
+            No experience added.
+          </div>
+        {% endif %}
+
+        
+        
+   
+      </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Skills</h3>
+      <div class="flex flex-wrap gap-3">
+        {% if skills %}
+          <div class="flex flex-wrap gap-2">
+            {% for skill in skills %}
+              <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full shadow-sm">
+                {{ skill }}
+              </span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-sm text-gray-500">No skills added.</p>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- Certifications Section -->
+   <div>
+      <h3 class="text-lg font-semibold text-gray-800 mb-3">Certifications</h3>
+      <div class="space-y-4">
+        {% if job_seeker.certificates.exist %}
+          {% for Certificate in job_seeker.certificates.all %}
+            <div class="bg-gray-50 p-4 rounded-md shadow-sm border-l-4 border-blue-500">
+              <h4 class="text-md font-medium text-gray-700">{{ Certificate.name }}</h4>
+              <p class="text-sm text-gray-600">Built a weather app with real-time API integration and light/dark theming using React and Context API.</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="text-center text-sm text-gray-500 border border-gray-200 rounded-xl p-6 bg-gray-50">
+            No certifications added.
+          </div>
+        {% endif %}
+        
+        
+      </div>
+    </div>
+
+    
+  </section>
+  
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="text-center text-gray-500 border-t mt-4 pt-2 pb-10">
+  © 2025 Jobify. All rights reserved.
+</footer>
+
+<script>
+  if (document.getElementById('nav-mobile-btn')) {
+      document.getElementById('nav-mobile-btn').addEventListener('click', function () {
+          if (this.classList.contains('close')) {
+              document.getElementById('nav').classList.add('hidden');
+              this.classList.remove('close');
+          } else {
+              document.getElementById('nav').classList.remove('hidden');
+              this.classList.add('close');
+          }
+      });
+  }
+</script>
+<script>
+  document.getElementById("downloadBtn").addEventListener("click", function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add profile details to the PDF
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text("John Doe", 20, 30); // Name
+    doc.setFontSize(12);
+    doc.text("Frontend Developer", 20, 40); // Title
+    doc.text("Email: john.doe@example.com", 20, 50);
+    doc.text("Phone: +1 (123) 456-7890", 20, 60);
+    doc.text("Location: San Francisco, CA", 20, 70);
+
+    // Add About section
+    doc.setFontSize(14);
+    doc.text("About", 20, 90);
+    doc.setFontSize(12);
+    doc.text("I am a passionate frontend developer with hands-on experience in React, Tailwind CSS, and UI/UX design.", 20, 100);
+
+    // Add Education Section
+    doc.setFontSize(14);
+    doc.text("Education", 20, 120);
+    doc.setFontSize(12);
+    doc.text("B.Sc. in Computer Science - University of California, 2018 - 2022", 20, 130);
+    doc.text("High School Diploma - Lincoln High School, 2014 - 2018", 20, 140);
+
+    // Add Experience Section
+    doc.setFontSize(14);
+    doc.text("Experience", 20, 160);
+    doc.setFontSize(12);
+    doc.text("Frontend Developer at PixelCrafters (Jan 2022 - Present)", 20, 170);
+    doc.text("UI/UX Intern at Designify (Jul 2021 - Dec 2021)", 20, 180);
+
+    // Add Skills Section
+    doc.setFontSize(14);
+    doc.text("Skills", 20, 200);
+    doc.setFontSize(12);
+    doc.text("React, Tailwind CSS, JavaScript, Figma, Git", 20, 210);
+
+    // Add Certifications Section
+    doc.setFontSize(14);
+    doc.text("Certifications", 20, 230);
+    doc.setFontSize(12);
+    doc.text("Google UX Design Certificate", 20, 240);
+    doc.text("Meta Front-End Developer Certificate", 20, 250);
+    doc.text("JavaScript Algorithms and Data Structures - freeCodeCamp", 20, 260);
+
+    // Save the PDF with a custom name
+    doc.save("John_Doe_Resume.pdf");
+  });
+</script>
+
+</body>
+</html>

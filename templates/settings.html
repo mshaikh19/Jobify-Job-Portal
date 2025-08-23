@@ -1,0 +1,126 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jobify | Profile </title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+</head>
+<body class="font-sans antialiased overflow-hidden">
+
+<!-- Header Section -->
+<header class="fixed z-100 w-full h-24 bg-white">
+    <div
+        class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0 w-full">
+
+        <a href="{% url 'home' %}" class="relative flex items-center h-full font-black leading-none">        
+            <span class="text-4xl text-gray-800">Jobify</span>
+        </a>
+
+        <nav id="nav"
+            class="absolute top-0 left-0 z-50 flex flex-col items-center justify-between hidden w-full h-64 pt-5 mt-24 text-sm text-gray-800 bg-white border-t border-gray-200 md:w-auto md:flex-row md:h-24 lg:text-base md:bg-transparent md:mt-0 md:border-none md:py-0 md:flex md:relative">
+            <a href="{% url 'home' %}"
+                class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Home</a>
+            <a href="#features"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Find a Job</a>
+            <a href="#testimonials"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Company Reviews</a>
+            
+            <div class="flex flex-col w-full font-medium border-t border-gray-200 md:hidden">
+                <a href="{% url 'profile' %}" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Profile</a>
+                <a href="{% url 'logout' %}"
+                    class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-dark-gray fold-bold">Logout</a>
+            </div>
+        </nav>
+
+        <div
+            class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
+            <a href="{% url 'profile' %}"
+                class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Profile</a>
+            <a href="{% url 'logout' %}"
+                class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white bg-dark-blue rounded shadow-md fold-bold   sm:w-full lg:shadow-none hover:shadow-xl">Logout</a>
+            
+        </div>
+
+        <div id="nav-mobile-btn"
+            class="absolute top-0 right-0 z-50 block w-6 mt-8 mr-10 cursor-pointer select-none md:hidden sm:mt-10">
+            <img src="{% static 'assests/images/menu.png' %}" class="">
+        </div>
+
+    </div>
+</header>
+    <!-- End Header Section-->
+
+<!-- Main Container -->
+<main class="max-w-3xl mx-auto py-10 px-4 md:px-0">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-8">Account Settings</h1>
+  
+    <!-- Change Password -->
+    <section class="bg-white shadow-sm border border-gray-200 rounded-xl mb-6 p-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-medium text-gray-800">Change Password</h2>
+          <p class="text-sm text-gray-600 mt-1">Update your current password to keep your account secure.</p>
+        </div>
+        <a href="{% url 'change-password' %}" class="inline-block bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-blue-700 transition">Change</a>
+      </div>
+    </section>
+  
+    <!-- Deactivate Account -->
+    <section class="bg-white shadow-sm border border-yellow-200 rounded-xl mb-6 p-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-medium text-yellow-700">Deactivate Account</h2>
+          <p class="text-sm text-yellow-600 mt-1">Temporarily disable your account. You can reactivate it anytime.</p>
+        </div>
+        <a href="/settings/deactivate" class="inline-block bg-yellow-500 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-yellow-600 transition">Deactivate</a>
+      </div>
+    </section>
+  
+    <!-- Delete Account -->
+    <section class="bg-white shadow-sm border border-red-200 rounded-xl p-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-medium text-red-700">Delete Account</h2>
+          <p class="text-sm text-red-600 mt-1">Permanently delete your account and all associated data. This action cannot be undone.</p>
+        </div>
+        <a href="#" onclick="confirmDelete()" class="inline-block bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-red-700 transition">Delete</a>
+
+        <script>
+            function confirmDelete() {
+              if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                window.location.href = "/profile/delete"; // Redirect to the delete URL after confirmation
+              }
+            }
+          </script>
+      </div>
+    </section>
+  </main>
+  
+
+<!-- Footer -->
+<footer class="text-center text-gray-500 border-t mt-4 pt-2 pb-10">
+  © 2025 Jobify. All rights reserved.
+</footer>
+<script>
+    if (document.getElementById('nav-mobile-btn')) {
+        document.getElementById('nav-mobile-btn').addEventListener('click', function () {
+            if (this.classList.contains('close')) {
+                document.getElementById('nav').classList.add('hidden');
+                this.classList.remove('close');
+            } else {
+                document.getElementById('nav').classList.remove('hidden');
+                this.classList.add('close');
+            }
+        });
+    }
+  </script>
+</body>
+</html>

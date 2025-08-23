@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Job Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ job.job_position }}</h2>
+    <p><strong>Company:</strong> {{ job.company.name }}</p>
+    <p><strong>Description:</strong> {{ job.job_description }}</p>
+    <p><strong>Salary:</strong> {{ job.salary }}</p>
+    <p><strong>Location:</strong> {{ job.job_location }}</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+</div>
+{% endblock %}

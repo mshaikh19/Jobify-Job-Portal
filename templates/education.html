@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Education & Documents - JobSeeker Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Step 3: Education & Documents</h3>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4">
+                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">3/3</div>
+                    </div>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.education.id_for_label }}" class="form-label">Education (Optional)</label>
+                            {{ form.education }}
+                            {% if form.education.errors %}
+                            <div class="text-danger">{{ form.education.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Enter your educational qualifications, including degrees, institutions, and graduation years</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.expected_salary.id_for_label }}" class="form-label">Expected Salary (Optional)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                {{ form.expected_salary }}
+                            </div>
+                            {% if form.expected_salary.errors %}
+                            <div class="text-danger">{{ form.expected_salary.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.resume.id_for_label }}" class="form-label">Resume/CV (Optional)</label>
+                            {{ form.resume }}
+                            {% if form.resume.errors %}
+                            <div class="text-danger">{{ form.resume.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Upload your resume in PDF format (max 5MB)</div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'job_seeker_details_2' %}" class="btn btn-outline-secondary">Back</a>
+                            <div>
+                                <button type="submit" name="skip" value="skip" class="btn btn-outline-primary me-2">Skip & Complete</button>
+                                <button type="submit" class="btn btn-success">Save & Complete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+
+from job_portal import views
+
+urlpatterns = [
+
+    path('admin/dashboard' , views.admin_dashboard_view , name="admin_dashboard"),
+    path('admin/manage/users', views.all_users_by_type , name="manage_users"),
+    path('admin/delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('', views.index, name='index'),
+    path('register/', views.user_register, name='user_register'),
+    path('phone-verification/', views.phone_verification, name="phone_verification"),
+    path('login/', views.user_login, name='login'),
+    path('home/', views.home, name="home"),
+    path('toggle-save-job/', views.toggle_save_job, name='toggle_save_job'),
+    path('apply/<int:job_id>/', views.apply_for_job, name='job_application'),
+    path('change-password/', views.change_password_view, name='change_password'),
+    path('jobify/register/', views.pre_register, name="pre-signup"),
+    path('profile/register/', views.job_seeker_register, name='job-seeker-register'),
+    path('profile/', views.profile_view, name='profile'),
+    path('download-resume/', views.download_resume, name='download_resume'),
+    path('edit-profile/' , views.edit_profile_view , name='edit_profile'),
+    path('settings/', views.settings_view, name='settings'),
+    path('saved-jobs/' , views.saved_jobs_view, name="saved-jobs"),
+    path('saved-jobs/delete/<int:saved_job_id>/', views.delete_saved_job, name='delete_saved_job'),
+    path('applied-jobs/' , views.applied_jobs_view, name="applied-jobs"),
+    path('delete-application/<int:job_id>/', views.delete_application, name='delete_application'),
+    path('find-jobs/' , views.find_jobs , name="find_jobs"),
+    path('company/register/', views.company_register, name='employer-register'),
+    path('company/dashboard/', views.company_dashboard, name='company_dashboard'),
+    path('company/admin/<str:company_name>/<str:company_person_name>/dashboard/', views.company_admin_dashboard, name='company_admin_dashboard'),
+    path('company/<str:company_name>/<str:company_person_name>/dashboard/', views.company_person_dashboard, name='company_person_dashboard'),
+    path('company/<str:company_name>/profile/', views.company_profile_view, name='company_profile'),
+    path('company/<str:company_name>/<str:company_person_name>/profile/', views.company_person_profile_view, name='company_person_profile'),
+    path('company/<str:company_name>/edit/', views.company_edit_view, name='company_edit'),
+    path('company/<str:company_name>/<str:company_person_name>/edit/', views.company_person_edit_view, name='company_person_edit'),
+    path('company/<str:company_name>/<str:company_person_name>/add-job/', views.add_job_view, name='add_job'),
+    path('company/<str:company_name>/jobs/', views.company_all_jobs_view, name='company_all_jobs'),
+    path('company/<str:company_name>/job/<int:job_id>/edit/', views.edit_job, name='edit_job'),
+    path('company/job/<int:job_id>/delete/', views.delete_job, name='delete_job'),
+    path('job/<int:job_id>/', views.job_detail, name='job_detail'),
+    path('company/<str:company_name>/team/', views.view_team_members, name='company_team_members'),
+    path('company/<str:company_name>/<str:company_person_name>/team/add_member', views.add_team_member, name='add_team_member'),
+    path('team/edit/<str:company_name>/<str:company_person_name>/<int:member_id>/', views.edit_team_member, name='edit_team_member'),
+    path('team/delete/<str:company_name>/<str:company_person_name>/<int:member_id>/', views.remove_team_member, name='remove_team_member'),
+    path('company/<str:company_name>/applications/', views.view_applications_view, name='applications'),
+    path('company/<int:application_id>/applicant/', views.view_applicant, name='view_applicant'),
+    path('applications/<int:application_id>/<str:action>/', views.update_application_status, name='update_application_status'),
+    path('resume/download/<int:application_id>/', views.download_resume_application, name='download_resume_application'),
+    path('company/reports/' , views.company_report_view , name='reports'),
+    path('logout/', views.user_logout, name='logout'),
+    path('error/404' , views.error_page , name="error_page"),
+    path('payment/callback/', views.payment_callback_view, name='payment_callback'),
+    path('cashfree/create-order/', views.create_cashfree_order, name='create_cashfree_order_api'),
+    path('cashfree/popup/', views.cashfree_popup_page, name='cashfree_popup_page'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/', views.forgot_password, name='reset_password'),
+    path('change-password/', views.change_password_view, name='change-password'),
+    path('profile/delete', views.delete_account, name='delete_account'),  # To delete account
+    path('goodbye/', views.goodbye_view, name='goodbye'),
+] 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

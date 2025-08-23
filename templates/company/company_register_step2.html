@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Register Your Company - Step 1</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="id_name">Company Name:</label>
+    {{ company_form.name }}
+
+    <label for="id_description">Description:</label>
+    {{ company_form.description }}
+
+    <label for="id_website">Website:</label>
+    {{ company_form.website }}
+
+    <label for="id_logo">Logo:</label>
+    {{ company_form.logo }}
+
+    <label for="id_industry">Industry:</label>
+    {{ company_form.industry }}
+
+    <label for="id_founded">Founded Year:</label>
+    {{ company_form.founded }}  
+
+    <label for="id_company_size">Company Size:</label>
+    {{ company_form.company_size }}
+
+    <button type="submit">Next Step</button>
+</form>
+{% endblock %}

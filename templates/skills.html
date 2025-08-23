@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Skills & Experience - JobSeeker Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Step 2: Skills & Experience</h3>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4">
+                        <div class="progress-bar" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100">2/3</div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.skills.id_for_label }}" class="form-label">Skills (Optional)</label>
+                            {{ form.skills }}
+                            {% if form.skills.errors %}
+                            <div class="text-danger">{{ form.skills.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Enter your technical and soft skills separated by commas (e.g., Python, React, Communication)</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.experience.id_for_label }}" class="form-label">Work Experience (Optional)</label>
+                            {{ form.experience }}
+                            {% if form.experience.errors %}
+                            <div class="text-danger">{{ form.experience.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Describe your relevant work experience, including company names, positions, and dates</div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'job_seeker_details_1' %}" class="btn btn-outline-secondary">Back</a>
+                            <div>
+                                <button type="submit" name="skip" value="skip" class="btn btn-outline-primary me-2">Skip to Next Step</button>
+                                <button type="submit" class="btn btn-primary">Save & Continue</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jobify | Applied Jobs</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Header Section -->
+  <header class="fixed z-100 w-full h-24 bg-white">
+    <div
+        class="container flex items-center justify-center h-full max-w-6xl px-8 mx-auto sm:justify-between xl:px-0 w-full">
+  
+        <a href="{% url 'home' %}" class="relative flex items-center h-full font-black leading-none">        
+            <span class="text-4xl text-gray-800">Jobify</span>
+        </a>
+  
+        <nav id="nav"
+            class="absolute top-0 left-0 z-50 flex flex-col items-center justify-between hidden w-full h-64 pt-5 mt-24 text-sm text-gray-800 bg-white border-t border-gray-200 md:w-auto md:flex-row md:h-24 lg:text-base md:bg-transparent md:mt-0 md:border-none md:py-0 md:flex md:relative">
+            <a href="{% url 'home' %}"
+                class="ml-0 mr-0 font-bold duration-100 md:ml-12 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Home</a>
+            <a href="#features"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Find a Job</a>
+            <a href="#testimonials"
+                class="mr-0 font-bold duration-100 md:mr-3 lg:mr-8 transition-color hover:text-light-blue">Company Reviews</a>
+            
+            <div class="flex flex-col w-full font-medium border-t border-gray-200 md:hidden">
+                <a href="{% url 'profile' %}" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Profile</a>
+                <a href="{% url 'settings' %}" class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center font-bold hover:text-light-blue">Settings</a>
+                <a href="{% url 'logout' %}"
+                    class="relative inline-block w-full px-5 py-3 text-sm leading-none text-center text-white bg-dark-gray fold-bold">Logout</a>
+            </div>
+        </nav>
+  
+        <div
+            class="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
+            <a href="{% url 'profile' %}"
+                class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Profile</a>
+            <a href="{% url 'settings' %}"
+                class="relative z-40 px-3 py-2 mr-0 text-sm font-bold  md:px-5  sm:mr-3 md:mt-0 hover:text-light-blue">Settings</a>
+            <a href="{% url 'logout' %}"
+                class="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white bg-dark-blue rounded shadow-md fold-bold   sm:w-full lg:shadow-none hover:shadow-xl">Logout</a>
+            
+        </div>
+  
+        <div id="nav-mobile-btn"
+            class="absolute top-0 right-0 z-50 block w-6 mt-8 mr-10 cursor-pointer select-none md:hidden sm:mt-10">
+            <img src="{% static 'assests/images/menu.png' %}" class="">
+        </div>
+  
+    </div>
+  </header>
+<!-- End Header Section-->
+
+  <!-- Main Content -->
+  <main class="pt-36 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <section class="bg-white shadow-xl rounded-2xl p-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+        <img src="{% static 'assests/images/suitcase_2.png' %}" class="w-10 h-10">
+        My Applied Jobs
+      </h1>
+
+      <!-- Job Cards -->
+      <div class="space-y-6">
+
+        <!-- Job Card -->
+         {% if applied_jobs %}
+            {% for job in applied_jobs %}
+            <div class="relative bg-[#f9fbff] border border-blue-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                <a href="#" onclick="confirmDeletion(`{% url 'delete_application' job.job.id %}`)" 
+                class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-md font-medium px-2">
+                    ✕ Remove
+                </a>
+
+                <script>
+                    function confirmDeletion(url) {
+                        // Display confirmation dialog
+                        const userConfirmed = confirm("Are you sure you want to delete your application?");
+                        
+                        // If the user clicks "OK", redirect to the delete URL (which will delete the application)
+                        if (userConfirmed) {
+                            window.location.href = url;
+                        }
+                    }
+                </script>
+            <div class="flex flex-col sm:flex-row justify-between gap-4">
+                <div>
+                <h2 class="text-xl font-semibold text-blue-800">{{ job.job.title }}</h2>
+                <p class="text-sm text-gray-600">{{ job.job.company.name }} - {{job.job.company.headquarters_address.street_address }} , {{job.job.company.headquarters_address.city }} , {{job.job.company.headquarters_address.state }} , {{job.job.company.headquarters_address.country }} </p>
+                <div class="flex items-center text-xs text-gray-500 mt-2">
+                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10m-9 4h6m-6 4h3M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
+                    </svg>
+                    Applied on: {{job.applied_at}}
+                </div>
+                </div>
+                <div class="flex items-center gap-2 self-start sm:self-center">
+                    <span class="h-2 w-2 
+                        {% if job.status == 'pending' %}
+                            bg-gray-500
+                        {% elif job.status == 'reviewed' %}
+                            bg-yellow-500
+                        {% elif job.status == 'shortlisted' %}
+                            bg-green-500
+                        {% elif job.status == 'rejected' %}
+                            bg-red-500
+                        {% elif job.status == 'hired' %}
+                            bg-blue-500
+                        {% endif %} 
+                        rounded-full"></span>
+                    <span class="text-sm 
+                        {% if job.status == 'pending' %}
+                            text-gray-800 bg-gray-100
+                        {% elif job.status == 'reviewed' %}
+                            text-yellow-800 bg-yellow-100
+                        {% elif job.status == 'shortlisted' %}
+                            text-green-800 bg-green-100
+                        {% elif job.status == 'rejected' %}
+                            text-red-800 bg-red-100
+                        {% elif job.status == 'hired' %}
+                            text-blue-800 bg-blue-100
+                        {% endif %} 
+                        font-medium px-3 py-1 rounded-full">
+                        {% if job.status == 'pending' %}
+                            Pending
+                        {% elif job.status == 'reviewed' %}
+                            Reviewed
+                        {% elif job.status == 'shortlisted' %}
+                            Shortlisted
+                        {% elif job.status == 'rejected' %}
+                            Rejected
+                        {% elif job.status == 'hired' %}
+                            Hired
+                        {% endif %}
+                    </span>
+                </div>
+                
+            </div>
+            <p class="text-sm text-gray-700 mt-4 leading-relaxed">
+               {{job.job.description}}
+            </p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h2 class="text-xl font-semibold text-dark-blue">You haven't submitted any applications at the moment.</h2>
+            
+        {% endif %}
+
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 border-t border-gray-200 py-6">
+    © 2025 Jobify. All rights reserved.
+  </footer>
+
+</body>
+</html>
