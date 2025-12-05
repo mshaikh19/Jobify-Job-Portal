@@ -132,7 +132,30 @@ DATABASES = {
 }
 ```
 
-Screenshots (Optional)
+## Screenshots
+<img width="1920" height="1080" alt="Screenshot (131)" src="https://github.com/user-attachments/assets/95058896-7aca-47cd-97a1-5dba572fb245" />
+
+<img width="1920" height="1080" alt="Screenshot (134)" src="https://github.com/user-attachments/assets/89194860-f4af-4ef2-8f9c-42a39a244647" />
+
+<img width="1920" height="1080" alt="Screenshot (137)" src="https://github.com/user-attachments/assets/ad762d12-bf7e-44c9-af6f-00b7f85e6273" />
+
+<img width="1920" height="1080" alt="Screenshot (138)" src="https://github.com/user-attachments/assets/67d869cf-f552-460c-95ca-c3bdf82a74f8" />
+
+<img width="1920" height="1080" alt="Screenshot (144)" src="https://github.com/user-attachments/assets/5d9cadd2-31b2-443e-b1e1-e7205a0cfaa6" />
+
+<img width="1920" height="1080" alt="Screenshot (146)" src="https://github.com/user-attachments/assets/b2caa818-e1b8-43a0-bfcf-bc2fd47464fe" />
+
+<img width="1920" height="1080" alt="Screenshot (150)" src="https://github.com/user-attachments/assets/0dfba0a4-1e45-4858-8c25-c92ec416df6f" />
+
+<img width="1920" height="1080" alt="Screenshot (152)" src="https://github.com/user-attachments/assets/e36493c0-088c-4594-8eed-88b2a2202a26" />
+
+<img width="1920" height="1080" alt="Screenshot (153)" src="https://github.com/user-attachments/assets/43765828-c05e-428f-9896-4fa9d3523326" />
+
+<img width="1920" height="1080" alt="Screenshot (155)" src="https://github.com/user-attachments/assets/a866032d-3a79-4fd7-bf9c-fd12f7519472" />
+
+<img width="1920" height="1080" alt="Screenshot (234)" src="https://github.com/user-attachments/assets/1e2f0e62-56df-4cb4-84e5-0db7d9f030e3" />
+
+<img width="1920" height="1080" alt="Screenshot (241)" src="https://github.com/user-attachments/assets/afcf0896-2035-4ac7-9d2d-331af01c293d" />
 
 ## License
 
